@@ -1,10 +1,10 @@
  # Latest Movie Recommendations
  
-Authors: \<[Matthew Thompson] (https://github.com/matthew-cs)
+Authors: [Matthew Thompson] (https://github.com/matthew-cs)
 [Qipeng Liang] (https://github.com/2000rick)
 [Evelyn Yao] (https://github.com/eyao004)
 [Connor Hardenburgh] (https://github.com/siaech)
-\>
+
 
 ## Project Description
 Application that outputs movies as recommendations in various categories (based on the movie genre, director, actors, rating, release date, etc). Then the application will recommend a list of movies to the user, based on their input. They can then ask for more details about a recommended movie.
