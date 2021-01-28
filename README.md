@@ -1,37 +1,35 @@
- > As you complete each section you **must** remove the prompt text. Every *turnin* of this project includes points for formatting of this README so keep it clean and keep it up to date. 
- > Prompt text is any lines beginning with "\>"
- > Replace anything between \<...\> with your project specifics and remove angle brackets. For example, you need to name your project and replace the header right below this line with that title (no angle brackets). 
-# \<Latest Movie Recommendations\>
- > Your author list below should include links to all members GitHub (remove existing author).
+ # Latest Movie Recommendations
  
- > Authors: \<[Matthew Thompson] (https://github.com/matthew-cs)
+Authors: \<[Matthew Thompson] (https://github.com/matthew-cs)
 [Qipeng Liang] (https://github.com/2000rick)
 [Evelyn Yao] (https://github.com/eyao004)
 [Connor Hardenburgh] (https://github.com/siaech)
 \>
- 
- > You will be forming a group of **THREE** students and working on an interesting project. A list of proposed project ideas that have been successful in previous quarters is given in the project specifications link on iLearn. You can select an idea from the list and decide which design patterns you will use to implement it. If you want to propose your own original idea, you will have to contact an instructor to discuss the project and obtain written permission before you submit your project proposal. Your project needs to implement two design patterns.The project work should be divided almost equally among team members and each member is expected to work on at least one design pattern (more than one partner may work on a pattern) and some of its test cases. You can of course help each other, but it needs to be clear who will be responsible for which patterns and for which features.
- 
- > ## Expectations
- > * Incorporate **at least two** distinct design patterns. You need to include at least *one* design pattern that we will teach this session:
- >   * Composite, Strategy, Abstract Factory, Visitor, or Decorator
- > * All design patterns need to be linked together (it can't be two distinct projects)
- > * Your project should be implemented in C++. If you wish to choose anoher programming language (e.g. Java, Python), please discuss with your lab TA to obtain permission.
- > * You can incorporate additional technologies/tools but they must be approved (in writing) by the instructor or the TA.
- > * Each member of the group **must** be committing code regularly and make sure their code is correctly attributed to them. We will be checking attributions to determine if there was equal contribution to the project.
-> * All project phases are to be submitted to this GitHub repository. You should modify this README file to reflect the different phases of the project. In addition, you should regularly hold sprint meetings with your group.
 
 ## Project Description
- > Your project description should summarize the project you are proposing. Be sure to include
- > * Why is it important or interesting to you?
- > * What languages/tools/technologies do you plan to use? (This list may change over the course of the project)
- >   * [toolname](link) - Short description
- > * What will be the input/output of your project?
- > * What are the two design patterns you will be using? For each design pattern you must explain in 4-5 sentences:
- >   * Why you picked this pattern and what feature you will implement with it
- >   * What problem you anticipate encountering when implementing your project that you will solve using the design pattern
- >   * Why the chosen design pattern will lead to a good solution to that problem
- > * This description should be in enough detail that the TA/instructor can determine the complexity of the project and if it is sufficient for the team members to complete in the time allotted. 
+Application that outputs movies as recommendations in various categories (based on the movie genre, director, actors, rating, release date, etc). Then the application will recommend a list of movies to the user, based on their input. They can then ask for more details about a recommended movie.
+
+Why is it important or interesting?
+It’s hard to get good movie recommendations. Therefore, we want to build a movie recommender that works for everyone - without tracking users and violating their privacy.
+
+Languages/tools/technologies we plan to use:
+Languages:
+C++
+Tools:
+Google Test
+
+Input/output of project:
+Input: Answer 2 menus. First menu input is (trending movies or upcoming), Second Menu is the genre.
+Output: movie recommendations (trending movies or upcoming) within the users chosen genre
+
+The two design patterns we will be using:
+
+Design Pattern 1: Composite Design Pattern
+We have chosen the composite design pattern because it will allow us to create objects in a tree-like structure. The tree-like pattern will allow us to include the various categories for each movie. Each movie will have its own sub categories (Ex movie genre, director, actors, rating, release date). The client, user, will manipulate the objects through interactions with the menu interface. The chosen design pattern will be sufficient for the project because it will allow the database to have a complex category system. 
+
+Design Pattern 2: State Design Pattern
+We picked the State design pattern because its features fit our project, our program will have different and finite states based on the user input. We will implement different menus with the design pattern, such as: trending movies, upcoming movies, or a specific genre. The program behaves differently in different states, and it can switch from one state to another instantly (transitions). By using the State design pattern, we can create new classes for each state and implement all state-specific behaviors into these classes. For example, in the state where the user is presented with trending movies, the user has the option to transition to a specific movie in the list (with details) or go back to the previous menu.
+
 
  > ## Phase II
  > In addition to completing the "Class Diagram" section below, you will need to 
