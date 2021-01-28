@@ -1,8 +1,11 @@
  # Latest Movie Recommendations
  
 Authors: [Matthew Thompson] (https://github.com/matthew-cs)
+
 [Qipeng Liang] (https://github.com/2000rick)
+
 [Evelyn Yao] (https://github.com/eyao004)
+
 [Connor Hardenburgh] (https://github.com/siaech)
 
 
@@ -13,8 +16,11 @@ Why is it important or interesting?
 It’s hard to get good movie recommendations. Therefore, we want to build a movie recommender that works for everyone - without tracking users and violating their privacy.
 
 Languages/tools/technologies we plan to use:
+
 Languages:
 C++
+
+
 Tools:
 Google Test
 
