@@ -2,13 +2,13 @@
  
 Authors: 
 
-[Matthew Thompson] (https://github.com/matthew-cs)
+[Matthew Thompson](https://github.com/matthew-cs)
 
-[Qipeng Liang] (https://github.com/2000rick)
+[Qipeng Liang](https://github.com/2000rick)
 
-[Evelyn Yao] (https://github.com/eyao004)
+[Evelyn Yao](https://github.com/eyao004)
 
-[Connor Hardenburgh] (https://github.com/siaech)
+[Connor Hardenburgh](https://github.com/siaech)
 
 
 ## Project Description
@@ -26,6 +26,10 @@ C++
 
 Tools:
 Google Test
+
+[JsonCpp](https://github.com/open-source-parsers/jsoncpp), from `libjsoncpp-dev`
+
+[libcurl](https://curl.se/libcurl/), from `libcurl4-openssl-dev`
 
 Input/output of project:
 Input: Answer 2 menus. First menu input is (trending movies or upcoming), Second Menu is the genre.
