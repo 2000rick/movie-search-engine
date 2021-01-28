@@ -1,6 +1,8 @@
  # Latest Movie Recommendations
  
-Authors: [Matthew Thompson] (https://github.com/matthew-cs)
+Authors: 
+
+[Matthew Thompson] (https://github.com/matthew-cs)
 
 [Qipeng Liang] (https://github.com/2000rick)
 
