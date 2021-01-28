@@ -31,6 +31,8 @@ Google Test
 
 [libcurl](https://curl.se/libcurl/), from `libcurl4-openssl-dev`
 
+[The Movie Database API](https://developers.themoviedb.org/3/getting-started/introduction)
+
 Input/output of project:
 Input: Answer 2 menus. First menu input is (trending movies or upcoming), Second Menu is the genre.
 Output: movie recommendations (trending movies or upcoming) within the users chosen genre
