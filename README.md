@@ -15,6 +15,7 @@ Authors:
 Application that outputs movies as recommendations in various categories (based on the movie genre, director, actors, rating, release date, etc). Then the application will recommend a list of movies to the user, based on their input. They can then ask for more details about a recommended movie.
 
 Why is it important or interesting?
+
 It’s hard to get good movie recommendations. Therefore, we want to build a movie recommender that works for everyone - without tracking users and violating their privacy.
 
 Languages/tools/technologies we plan to use:
@@ -33,9 +34,11 @@ Output: movie recommendations (trending movies or upcoming) within the users cho
 The two design patterns we will be using:
 
 Design Pattern 1: Composite Design Pattern
+
 We have chosen the composite design pattern because it will allow us to create objects in a tree-like structure. The tree-like pattern will allow us to include the various categories for each movie. Each movie will have its own sub categories (Ex movie genre, director, actors, rating, release date). The client, user, will manipulate the objects through interactions with the menu interface. The chosen design pattern will be sufficient for the project because it will allow the database to have a complex category system. 
 
 Design Pattern 2: State Design Pattern
+
 We picked the State design pattern because its features fit our project, our program will have different and finite states based on the user input. We will implement different menus with the design pattern, such as: trending movies, upcoming movies, or a specific genre. The program behaves differently in different states, and it can switch from one state to another instantly (transitions). By using the State design pattern, we can create new classes for each state and implement all state-specific behaviors into these classes. For example, in the state where the user is presented with trending movies, the user has the option to transition to a specific movie in the list (with details) or go back to the previous menu.
 
 
