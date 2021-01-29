@@ -34,8 +34,10 @@ Google Test
 [The Movie Database API](https://developers.themoviedb.org/3/getting-started/introduction)
 
 Input/output of project:
-Input: Answer 2 menus. First menu input is (trending movies or upcoming), Second Menu is the genre.
-Output: movie recommendations (trending movies or upcoming) within the users chosen genre
+
+Input: Answer 2 menus. First menu input is (trending or upcoming movies), Second Menu is the user's genre of choice.
+
+Output: A list of movie recommendations (trending or upcoming movies) within the user's chosen genre. The user can then choose a specific movie from the list to see more details.
 
 The two design patterns we will be using:
 
