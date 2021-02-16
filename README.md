@@ -61,6 +61,19 @@ We picked the State design pattern because its features fit our project, our pro
  >   * Create smaller development tasks as issues and assign them to team members. Place these in the `Backlog` column.
  >   * These cards should represent roughly 7 days worth of development time for your team, taking you until your first meeting with the TA
 ## Class Diagram
+Description:
+
+State (Interface):
+
+Movie:
+
+Main Menu:
+
+Trending Movies:
+
+Upcoming Movies:
+
+
  > Include a class diagram(s) for each design pattern and a description of the diagram(s). Your class diagram(s) should include all the main classes you plan for the project. This should be in sufficient detail that another group could pick up the project this point and successfully complete it. Use proper OMT notation (as discussed in the course slides). You may combine multiple design patterns into one diagram if you'd like, but it needs to be clear which portion of the diagram represents which design pattern (either in the diagram or in the description). 
  
  > ## Phase III
