@@ -43,7 +43,7 @@ The two design patterns we will be using:
 
 Design Pattern 1: Composite Design Pattern
 
-We have chosen the composite design pattern because it will allow us to create objects in a tree-like structure. The tree-like pattern will allow us to include the various categories for each movie. Each movie will have its own sub categories (Ex movie genre, director, actors, rating, release date). The client, user, will manipulate the objects through interactions with the menu interface. The chosen design pattern will be sufficient for the project because it will allow the database to have a complex category system. 
+We have chosen the composite design pattern because it will allow us to create different objects that extends from a common base class. Each movie will have its own sub categories (Ex movie genre, director, actors, rating, release date). The pattern will allow us to include the various categories for each movie and allow the user to select multiple criteria for recommendation (e.g. this actor AND this genre). The client, user, will manipulate the objects through interactions with the menu interface. The chosen design pattern will be sufficient for the project because it will allow the database to have a complex category and search system. 
 
 Design Pattern 2: State Design Pattern
 
