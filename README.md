@@ -61,6 +61,9 @@ We picked the State design pattern because its features fit our project, our pro
  >   * Create smaller development tasks as issues and assign them to team members. Place these in the `Backlog` column.
  >   * These cards should represent roughly 7 days worth of development time for your team, taking you until your first meeting with the TA
 ## Class Diagram
+
+![Design Pattern](https://user-images.githubusercontent.com/77033594/108158289-775fb400-7099-11eb-82bf-4ded7d4585fd.png)
+
 Description:
 
 State (Interface):
