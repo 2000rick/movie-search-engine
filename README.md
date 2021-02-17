@@ -64,17 +64,15 @@ We picked the State design pattern because its features fit our project, our pro
 
 ![Design Pattern](https://user-images.githubusercontent.com/77033594/108158289-775fb400-7099-11eb-82bf-4ded7d4585fd.png)
 
-Description:
+MainMenu: This is the context class, it holds a State pointer, an apiKey, among others. This is what the end user will mostly be interacting with.
 
-State (Interface):
+State: Interface, abstract class.
 
-Movie:
+Movie: Movie object, it holds the detailed information on the movies.
 
-Main Menu:
+Trending Movies: This is one of the possible states, the display function will output trending movies with user-defined criteria. User can then choose to get details about a specific movie.
 
-Trending Movies:
-
-Upcoming Movies:
+Upcoming Movies: The display function will output upcoming movies with user-defined criteria. User can then choose to get details about a specific movie.
 
 
  > Include a class diagram(s) for each design pattern and a description of the diagram(s). Your class diagram(s) should include all the main classes you plan for the project. This should be in sufficient detail that another group could pick up the project this point and successfully complete it. Use proper OMT notation (as discussed in the course slides). You may combine multiple design patterns into one diagram if you'd like, but it needs to be clear which portion of the diagram represents which design pattern (either in the diagram or in the description). 
