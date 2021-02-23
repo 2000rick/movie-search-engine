@@ -47,10 +47,11 @@ We have chosen the composite design pattern because it will allow us to create d
 
 Design Pattern 2: Strategy Design Pattern
 
-We picked the Strategy design pattern because its features fit our project, our program will have different search queries based on the user input. We will implement different strategies with the design pattern, such as: Select_Contains, Select_And, Select_Not, etc. The user search query will be parsed by a factory method, where it updates the Select method(the pointer) to match the criteria. By using the Strategy design pattern, we can new separate classes for each strategy method and implement all strategy-specific behaviors into them. This will allow the user to search for both specific movies or a broad-range of movies.
+We picked the Strategy design pattern because its features fit our project, our program will have different search queries based on the user input. We will implement different strategies with the design pattern, such as: Select_Contains, Select_And, Select_Not, etc. The user search query will be parsed by a factory method, where it updates the Select method(the pointer) to match the criteria. By using the Strategy design pattern, we can create new separate classes for each strategy method and implement all strategy-specific behaviors into them. This will allow the user to search for both specific movies or a broad-range of movies.
 
 Design Pattern 3: Factory Design Pattern
-We have added the factory design pattern because it will allow us to make the creation of the Selection object abstract. We are going to use the factory pattern to parse a user search query(string). This method will return or update root node(pointer) containing a tree of Select classes.
+
+We have added the factory design pattern because it will allow us to make the creation of the Selection object abstract. We are going to use the factory pattern to parse a user search query(string). This method will return or update root node(pointer) containing a tree of Select classes. In other words, the factory method will be creating a product of Select object. 
 
 
 ## Class Diagram
