@@ -12,11 +12,11 @@ Authors:
 
 
 ## Project Description
-Application that outputs movies as recommendations in various categories (based on the movie genre, director, actors, rating, release date, etc). Then the application will recommend a list of movies to the user, based on their input. They can then ask for more details about a recommended movie.
+Application that allows the user to search movies in various categories (based on the movie genre, director, actors, rating, release date, etc). Then the application will display a list of matching movies to the user, based on their input. 
 
 Why is it important or interesting?
 
-It’s hard to get good movie recommendations. Therefore, we want to build a movie recommender that works for everyone - without tracking users and violating their privacy.
+It’s hard to search for the perfect movie. Therefore, we want to build a movie search engine that works for everyone - without tracking users and violating their privacy.
 
 Languages/tools/technologies we plan to use:
 
@@ -35,11 +35,11 @@ Google Test
 
 Input/output of project:
 
-Input: Answer 2 menus. First menu input is (trending or upcoming movies), Second Menu is the user's genre of choice.
+Input: A search query. Optional: Specify how the movies are sorted. Specifcy how many movies to display.
 
-Output: A list of movie recommendations (trending or upcoming movies) within the user's chosen genre. The user can then choose a specific movie from the list to see more details.
+Output: A list of movies that matches the user's search query.
 
-The two design patterns we will be using:
+The design patterns we will be using:
 
 Design Pattern 1: Composite Design Pattern
 
