@@ -52,17 +52,20 @@ We picked the State design pattern because its features fit our project, our pro
 
 ## Class Diagram
 
-![Design Pattern](https://user-images.githubusercontent.com/77033594/108158289-775fb400-7099-11eb-82bf-4ded7d4585fd.png)
+![Movie Search Engine](https://user-images.githubusercontent.com/77033594/108788556-161e6180-752d-11eb-868d-17c9c6bba4af.png)
 
-MainMenu: This is the context class, it holds a State pointer, an apiKey, among others. This is what the end user will mostly be interacting with.
+Movies: This is the context class, it holds a Select pointer, movie data, among others. The search function is intended to be a factory method (which we might extract to its own class). This class is what the end user will mostly be interacting with.
 
-State: Interface, abstract class.
+Select: Interface, abstract class.
 
-Movie: Movie object, it holds the detailed information on the movies.
+Select_Contains: A concrete strategy. Returns true if row(the movie) should be printed.
 
-Trending Movies: This is one of the possible states, the display function will output trending movies with user-defined criteria. User can then choose to get details about a specific movie.
+Select_Not: A concrete strategy that takes another Select pointer as input and performs the NOT logic operation. Returns true if the row(the movie) should be printed.
 
-Upcoming Movies: The display function will output upcoming movies with user-defined criteria. User can then choose to get details about a specific movie.
+Select_And: A concrete strategy that takes other Select pointers as input and performs the AND logic operation. Returns true if the row(the movie) should be printed.
+
+Select_Or: A concrete strategy that takes two Select pointers as input and performs the OR logic operation. Returns true if the row(the movie) should be printed.
+
 
  
  > ## Phase III
