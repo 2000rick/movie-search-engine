@@ -45,9 +45,12 @@ Design Pattern 1: Composite Design Pattern
 
 We have chosen the composite design pattern because it will allow us to create different objects that extends from a common base class. Each movie will have its own sub categories (Ex movie genre, director, actors, rating, release date). The pattern will allow us to include the various categories for each movie and allow the user to select multiple criteria for recommendation (e.g. this actor AND this genre). The client, user, will manipulate the objects through interactions with the menu interface. The chosen design pattern will be sufficient for the project because it will allow the database to have a complex category and search system. The composite design pattern will allow tree like structures where the composite class and the leaves are treated the same. They will us to use the same base class, the component class. For example, a movie genre can be described as a tree when compared to its subgenres. 
 
-Design Pattern 2: State Design Pattern
+Design Pattern 2: Strategy Design Pattern
 
-We picked the State design pattern because its features fit our project, our program will have different and finite states based on the user input. We will implement different menus with the design pattern, such as: trending movies, upcoming movies, or a specific genre. The program behaves differently in different states, and it can switch from one state to another instantly (transitions). By using the State design pattern, we can create new classes for each state and implement all state-specific behaviors into these classes. For example, in the state where the user is presented with trending movies, the user has the option to transition to a specific movie in the list (with details) or go back to the previous menu.
+We picked the Strategy design pattern because its features fit our project, our program will have different search queries based on the user input. We will implement different strategies with the design pattern, such as: Select_Contains, Select_And, Select_Not, etc. The user search query will be parsed by a factory method, where it updates the Select method(the pointer) to match the criteria. By using the Strategy design pattern, we can new separate classes for each strategy method and implement all strategy-specific behaviors into them. This will allow the user to search for both specific movies or a broad-range of movies.
+
+Design Pattern 3: Factory Design Pattern
+We have added the factory design pattern because it will allow us to make the creation of the Selection object abstract. We are going to use the factory pattern to parse a user search query(string). This method will return or update root node(pointer) containing a tree of Select classes.
 
 
 ## Class Diagram
