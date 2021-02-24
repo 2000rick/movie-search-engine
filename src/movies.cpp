@@ -11,3 +11,9 @@
 #include <curl/curl.h>
 
 using namespace std;
+
+bool search(std::string& query) {
+	    std::stringstream stream(query);
+	        return true;
+
+}
