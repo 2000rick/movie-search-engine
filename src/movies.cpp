@@ -16,7 +16,7 @@ static size_t WriteCallback(const char* in, size_t size, size_t num, string* out
     return size * num;
 }
 
-bool Movies::update(int id){
+bool Movies::movie_update(int id){
   string url("https://api.themoviedb.org/3/movie/" + to_string(id) + "?api_key=" + api_key);
   long httpCode(0);
   unique_ptr<string> httpData(new string());
@@ -197,11 +197,284 @@ bool Movies::update(int id){
       add_vector(movieData);
     }
     else {
+      //cout << "Movie parse failed!" << endl << "ID: " << id << endl << url << endl;
       return false;
     }
   }
   else {
+    //cout << "Movie fetch failed!" << endl << "ID: " << id << endl << "HTTP Code: " << httpCode << endl << url << endl;
     return false;
   }
   return true;
+}
+
+bool Movies::movie_update(string sort, int n){
+  string baseUrl;
+  int movieCount = n;
+  int totalPages = 1;
+
+  if (sort == "trending") {
+    baseUrl = "https://api.themoviedb.org/3/trending/movie/day?api_key=" + api_key;
+  } else if (sort == "now_playing") {
+    baseUrl = "https://api.themoviedb.org/3/movie/now_playing?api_key=" + api_key;
+  } else if (sort == "top_rated") {
+    baseUrl = "https://api.themoviedb.org/3/movie/top_rated?api_key=" + api_key;
+  } else {
+    //cout << "Sort name failed!" << endl << "Input: " << sort << endl;
+    clear();
+    return false;
+  }
+
+  clear();
+
+  vector<string> column_names;
+  column_names.push_back("budget");
+  column_names.push_back("genres");
+  column_names.push_back("homepage");
+  column_names.push_back("id");
+  column_names.push_back("imdb_id");
+  column_names.push_back("original_language");
+  column_names.push_back("original_title");
+  column_names.push_back("overview");
+  column_names.push_back("popularity");
+  column_names.push_back("production_company_name");
+  column_names.push_back("production_company_country");
+  column_names.push_back("production_country");
+  column_names.push_back("release_date");
+  column_names.push_back("revenue");
+  column_names.push_back("runtime");
+  column_names.push_back("spoken_language");
+  column_names.push_back("status");
+  column_names.push_back("tagline");
+  column_names.push_back("title");
+  column_names.push_back("vote_average");
+  column_names.push_back("vote_count");
+  set_column_names(column_names);
+
+  for (int i = 1; i <= n/20+1 && i <= totalPages; i++){
+    string url(baseUrl + "&page=" + to_string(i+1));
+    long httpCode(0);
+    unique_ptr<string> httpData(new string());
+
+    //Get data from http using CURL
+    CURL* curl = curl_easy_init();
+    if(curl) {
+      curl_easy_setopt(curl, CURLOPT_URL, url.c_str()); // Set remote url
+      curl_easy_setopt(curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4); // IPv4
+      curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10); // Times out after 10 seconds
+      curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L); // Follow redirects if necessary (just in case)
+      curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback); // Data handling function
+      curl_easy_setopt(curl, CURLOPT_WRITEDATA, httpData.get()); // Data container
+
+      curl_easy_perform(curl);
+      curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpCode);
+      curl_easy_cleanup(curl);
+    }
+
+    if (httpCode == 200) {
+      Json::Value jsonData;
+      Json::Reader jsonReader;
+
+      if (jsonReader.parse(*httpData.get(), jsonData)) {
+        totalPages = jsonData["total_pages"].asInt();
+
+        for (int j = 0; j < jsonData["results"].size() && movieCount > 0; j++) {
+          //count << movieCount << endl;
+          if (movie_update(jsonData["results"][j]["id"].asInt())) {
+            clear();
+            movieCount--;
+          } else {
+            //cout << "Movie update failed!" << endl << url << endl;
+          }
+      }
+      else {
+        //cout << "Movie list parse failed!" << endl << "Page: " << i+1 << endl << url << endl;
+        clear();
+        return false;
+      }
+    }
+    else {
+      //cout << "Movie list fetch failed!" << endl << "Page: " << i+1 << endl << "HTTP Code: " << httpCode << endl << url << endl;
+      clear();
+      return false;
+    }
+  }
+    return true;
+}
+
+void Movies::print_selection(std::ostream& out) const {
+  if (column_names.size() != 21) {
+    return;
+  }
+  else if (select == nullptr) {
+    for(int i = 0; i < data.size(); i++){
+      cout << "Budget: ";
+      if (!data[i][0].empty()) cout << data[i][0][0];
+
+      cout << endl << "Genres: ";
+      if (!data[i][1].empty()) {
+        for (int j = 0; j < data[i][1].size()-1; j++){
+          cout << data[i][1][j] << ", ";
+        }
+        cout << data[i][1].back();
+      }
+
+      cout << endl << "Homepage: ";
+      if (!data[i][2].empty()) cout << data[i][2][0];
+
+      cout << endl << "ID: ";
+      if (!data[i][3].empty()) cout << data[i][3][0];
+
+      cout << endl << "IMDB ID: ";
+      if (!data[i][4].empty()) cout << data[i][4][0];
+
+      cout << endl << "Original Language: ";
+      if (!data[i][5].empty()) cout << data[i][5][0];
+
+      cout << endl << "Original Title: ";
+      if (!data[i][6].empty()) cout << data[i][6][0];
+
+      cout << endl << "Overview: ";
+      if (!data[i][7].empty()) cout << data[i][7][0];
+
+      cout << endl << "Popularity: ";
+      if (!data[i][8].empty()) cout << data[i][8][0];
+
+      cout << endl << "Production Companies: ";
+      if (!data[i][9].empty() && !data[i][10].empty()){
+        for (int j = 0; j < data[i][9].size()-1; j++){
+          cout << data[i][9][j] << " (" << data[i][10][j] << "), ";
+        }
+        cout << data[i][9].back() << " (" << data[i][10].back() << ")" << endl;
+      }
+
+      cout << "Production Countries: ";
+      if (!data[i][11].empty()){
+        for (int j = 0; j < data[i][11].size()-1; j++){
+          cout << data[i][11][j] << ", ";
+        }
+        cout << data[i][11].back() << endl;
+      }
+
+      cout << "Release Date: ";
+      if (!data[i][12].empty()) cout << data[i][12][0] << endl;
+
+      cout << "Revenue: ";
+      if (!data[i][13].empty()) cout << data[i][13][0] << endl;
+
+      cout << "Runtime: ";
+      if (!data[i][14].empty()) cout << data[i][14][0] << endl;
+
+      cout << "Spoken Languages: ";
+      if (!data[i][15].empty()){
+        for (int j = 0; j < data[i][15].size()-1; j++){
+          cout << data[i][15][j] << ", ";
+        }
+        cout << data[i][15].back() << endl;
+      }
+
+      cout << "Status: ";
+      if (!data[i][16].empty()) cout << data[i][16][0] << endl;
+
+      cout << "Tagline: ";
+      if (!data[i][17].empty()) cout << data[i][17][0] << endl;
+
+      cout << "Title: ";
+      if (!data[i][18].empty()) cout << data[i][18][0] << endl;
+
+      cout << "Vote Average: ";
+      if (!data[i][19].empty()) cout << data[i][19][0] << endl;
+
+      cout << "Vote Count: ";
+      if (!data[i][20].empty()) cout << data[i][20][0] << endl;
+
+      cout << "--------------------------------------------" << endl;
+    }
+  } else {
+    for(int i = 0; i < data.size(); i++){
+      if (select->select(this, i)) {
+        cout << "Budget: ";
+        if (!data[i][0].empty()) cout << data[i][0][0];
+
+        cout << endl << "Genres: ";
+        if (!data[i][1].empty()) {
+          for (int j = 0; j < data[i][1].size()-1; j++){
+            cout << data[i][1][j] << ", ";
+          }
+          cout << data[i][1].back();
+        }
+
+        cout << endl << "Homepage: ";
+        if (!data[i][2].empty()) cout << data[i][2][0];
+
+        cout << endl << "ID: ";
+        if (!data[i][3].empty()) cout << data[i][3][0];
+
+        cout << endl << "IMDB ID: ";
+        if (!data[i][4].empty()) cout << data[i][4][0];
+
+        cout << endl << "Original Language: ";
+        if (!data[i][5].empty()) cout << data[i][5][0];
+
+        cout << endl << "Original Title: ";
+        if (!data[i][6].empty()) cout << data[i][6][0];
+
+        cout << endl << "Overview: ";
+        if (!data[i][7].empty()) cout << data[i][7][0];
+
+        cout << endl << "Popularity: ";
+        if (!data[i][8].empty()) cout << data[i][8][0];
+
+        cout << endl << "Production Companies: ";
+        if (!data[i][9].empty() && !data[i][10].empty()){
+          for (int j = 0; j < data[i][9].size()-1; j++){
+            cout << data[i][9][j] << " (" << data[i][10][j] << "), ";
+          }
+          cout << data[i][9].back() << " (" << data[i][10].back() << ")" << endl;
+        }
+
+        cout << "Production Countries: ";
+        if (!data[i][11].empty()){
+          for (int j = 0; j < data[i][11].size()-1; j++){
+            cout << data[i][11][j] << ", ";
+          }
+          cout << data[i][11].back() << endl;
+        }
+
+        cout << "Release Date: ";
+        if (!data[i][12].empty()) cout << data[i][12][0] << endl;
+
+        cout << "Revenue: ";
+        if (!data[i][13].empty()) cout << data[i][13][0] << endl;
+
+        cout << "Runtime: ";
+        if (!data[i][14].empty()) cout << data[i][14][0] << endl;
+
+        cout << "Spoken Languages: ";
+        if (!data[i][15].empty()){
+          for (int j = 0; j < data[i][15].size()-1; j++){
+            cout << data[i][15][j] << ", ";
+          }
+          cout << data[i][15].back() << endl;
+        }
+
+        cout << "Status: ";
+        if (!data[i][16].empty()) cout << data[i][16][0] << endl;
+
+        cout << "Tagline: ";
+        if (!data[i][17].empty()) cout << data[i][17][0] << endl;
+
+        cout << "Title: ";
+        if (!data[i][18].empty()) cout << data[i][18][0] << endl;
+
+        cout << "Vote Average: ";
+        if (!data[i][19].empty()) cout << data[i][19][0] << endl;
+
+        cout << "Vote Count: ";
+        if (!data[i][20].empty()) cout << data[i][20][0] << endl;
+
+        cout << "--------------------------------------------" << endl;
+      }
+    }
+  }
 }
