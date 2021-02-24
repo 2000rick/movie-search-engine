@@ -38,5 +38,28 @@ class Select_Contains: public Select_Column {
    }
 };
 
+class Select_And: public Select {
+ protected:
+   Select* left = nullptr;
+   Select* right = nullptr;
+ public:
+   Select_And(Select* lhs, Select* rhs) {
+      left = lhs;
+      right = rhs;
+   }
+   virtual ~Select_And() {
+      delete left;
+      delete right;
+   }
+   virtual bool select(const Movies* movie, int row) const {
+      if (left->select(movie, row) && right->select(movie, row)) {
+         return true;
+      }
+      else {
+         return false;
+      }
+   }
+};
+
 
 #endif
