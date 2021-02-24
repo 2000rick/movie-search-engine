@@ -3,7 +3,6 @@
 
 #include <string>
 #include <iostream>
-#include <cstdint>
 #include <memory>
 
 #include <jsoncpp/json/json.h>
@@ -18,7 +17,7 @@ static size_t WriteCallback(const char* in, size_t size, size_t num, string* out
 }
 
 bool Movies::update(int id){
-  string baseUrl("https://api.themoviedb.org/3/movie/" + to_string(id) + "?api_key=" + to_string(api_key));
+  string url("https://api.themoviedb.org/3/movie/" + to_string(id) + "?api_key=" + api_key);
   long httpCode(0);
   unique_ptr<string> httpData(new string());
 
@@ -26,7 +25,7 @@ bool Movies::update(int id){
   CURL* curl = curl_easy_init();
   if(curl) {
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str()); // Set remote url
-    curl_easy_setopt(curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+    curl_easy_setopt(curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4); // IPv4
     curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10); // Times out after 10 seconds
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L); // Follow redirects if necessary (just in case)
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback); // Data handling function
@@ -46,7 +45,7 @@ bool Movies::update(int id){
 
       //Budget
       vector<string> budgetData;
-      if (jsonData["budget"].asBool()) {
+      if (jsonData["budget"].isInt()) {
         budgetData.push_back(jsonData["budget"].asString());
       }
       movieData.push_back(budgetData);
@@ -62,50 +61,50 @@ bool Movies::update(int id){
 
       //Homepage
       vector<string> homepageData;
-      if (jsonData["homepage"].asBool()) {
+      if (jsonData["homepage"].isString()) {
         homepageData.push_back(jsonData["homepage"].asString());
       }
       movieData.push_back(homepageData);
 
       //ID
       vector<string> idData;
-      if (jsonData["id"].asBool()) {
+      if (jsonData["id"].isInt()) {
         idData.push_back(jsonData["id"].asString());
       }
       movieData.push_back(idData);
 
       //IMDB_ID
       vector<string> imdbIdData;
-      if (jsonData["imdb_id"].asBool()) {
+      if (jsonData["imdb_id"].isString()) {
         imdbIdData.push_back(jsonData["imdb_id"].asString());
       }
       movieData.push_back(imdbIdData);
 
       //Original_Language
       vector<string> originalLanguageData;
-      if (jsonData["original_language"].asBool()) {
+      if (jsonData["original_language"].isString()) {
         originalLanguageData.push_back(jsonData["original_language"].asString());
       }
       movieData.push_back(originalLanguageData);
 
       //Original_Title
       vector<string> originalTitleData;
-      if (jsonData["original_title"].asBool()) {
+      if (jsonData["original_title"].isString()) {
         originalTitleData.push_back(jsonData["original_title"].asString());
       }
       movieData.push_back(originalTitleData);
 
       //Overview
       vector<string> overviewData;
-      if (jsonData["overview"].asBool()) {
+      if (jsonData["overview"].isString()) {
         overviewData.push_back(jsonData["overview"].asString());
       }
       movieData.push_back(overviewData);
 
       //Popularity
       vector<string> popularityData;
-      if (jsonData["popularity"].asBool()) {
-        popularityData.push_back(jsonData["overview"].asString());
+      if (jsonData["popularity"].isDouble()) {
+        popularityData.push_back(jsonData["popularity"].asString());
       }
       movieData.push_back(overviewData);
 
@@ -132,21 +131,21 @@ bool Movies::update(int id){
 
       //Release_Date
       vector<string> releaseDateData;
-      if (jsonData["release_date"].asBool()) {
+      if (jsonData["release_date"].isString()) {
         releaseDateData.push_back(jsonData["release_date"].asString());
       }
       movieData.push_back(releaseDateData);
 
       //Revenue
       vector<string> revenueData;
-      if (jsonData["revenue"].asBool()) {
+      if (jsonData["revenue"].isInt()) {
         revenueData.push_back(jsonData["revenue"].asString());
       }
       movieData.push_back(revenueData);
 
       //Runtime
       vector<string> runtimeData;
-      if (jsonData["runtime"].asBool()) {
+      if (jsonData["runtime"].isInt()) {
         runtimeData.push_back(jsonData["runtime"].asString());
       }
       movieData.push_back(runtimeData);
@@ -162,35 +161,35 @@ bool Movies::update(int id){
 
       //Status
       vector<string> statusData;
-      if (jsonData["status"].asBool()) {
+      if (jsonData["status"].isString()) {
         statusData.push_back(jsonData["status"].asString());
       }
       movieData.push_back(statusData);
 
       //Tagline
       vector<string> taglineData;
-      if (jsonData["tagline"].asBool()) {
+      if (jsonData["tagline"].isString()) {
         taglineData.push_back(jsonData["tagline"].asString());
       }
       movieData.push_back(taglineData);
 
       //Title
       vector<string> titleData;
-      if (jsonData["title"].asBool()) {
+      if (jsonData["title"].isString()) {
         titleData.push_back(jsonData["title"].asString());
       }
       movieData.push_back(titleData);
 
       //Vote_Average
       vector<string> voteAverageData;
-      if (jsonData["vote_average"].asBool()) {
+      if (jsonData["vote_average"].isDouble()) {
         voteAverageData.push_back(jsonData["vote_average"].asString());
       }
       movieData.push_back(voteAverageData);
 
       //Vote_Count
       vector<string> voteCountData;
-      if (jsonData["vote_count"].asBool()) {
+      if (jsonData["vote_count"].isInt()) {
         voteCountData.push_back(jsonData["vote_count"].asString());
       }
       movieData.push_back(voteCountData);
