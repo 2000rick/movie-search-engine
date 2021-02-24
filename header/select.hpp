@@ -81,4 +81,23 @@ class Select_Not: public Select {
    }
 };
 
+class Select_Or: public Select {
+ protected:
+   Select* left = nullptr;
+   Select* right = nullptr;
+ public:
+   Select_Or(Select* lhs, Select* rhs) {
+      left = lhs;
+      right = rhs;
+   }
+   virtual ~Select_Or() {
+      delete left;
+      delete right;
+   }
+   virtual bool select(const Movies* movie, int row) const {
+      if(left->select(movie, row) || right->select(movie, row)) return true;
+      return false;
+   }
+};
+
 #endif
