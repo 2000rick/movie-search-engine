@@ -1,4 +1,4 @@
-#include "../header/spreadsheet.hpp"
+#include "../header/movies.hpp"
 #include "../header/select.hpp"
 
 #include <string>
@@ -12,7 +12,12 @@
 
 using namespace std;
 
-bool search(std::string& query) {
+void Movies::set_selection(Select* new_select) {
+    delete select;
+    select = new_select;
+}
+
+bool Movies::search(std::string& query) {
 	std::stringstream stream(query);
 	std::string word = "";
     while (stream >> word)
@@ -63,4 +68,6 @@ bool search(std::string& query) {
             set_selection(new Select_Contains(this, left, right));
         }
     }
+
+    return true;
 }
