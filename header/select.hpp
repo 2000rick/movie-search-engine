@@ -1,7 +1,7 @@
 #ifndef __SELECT_HPP__
 #define __SELECT_HPP__
 
-#include <cstring>
+#include <string>
 
 class Select {
  public:
@@ -29,7 +29,7 @@ class Select_Contains: public Select_Column {
  protected:
    std::string keyword;
  public:
-   Select_Contains(const Movies* movie, const category_name, const std::string& user_string): Select_Category(movie, category_name) {
+   Select_Contains(const Movies* movie, const std::string& category_name, const std::string& user_string): Select_Column(movie, category_name) {
       keyword = user_string;
    }
    virtual bool select(const std::string& s) const {
