@@ -13,6 +13,7 @@ private:
   std::vector<std::string> column_names;
   std::vector<std::vector<std::vector<std::string>>> data;
   Select* select = nullptr;
+  std::string api_key = "8b6eb71dd22c58cfb6125ac835f94e2a";
 
   void set_selection(Select* new_select);
   bool update(int id);
