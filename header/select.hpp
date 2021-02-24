@@ -61,5 +61,24 @@ class Select_And: public Select {
    }
 };
 
+class Select_Not: public Select {
+ protected:
+   Select* ptr = nullptr;
+ public:
+   Select_Not(Select* p) {
+      ptr = p;
+   }
+   virtual ~Select_Not() {
+      delete ptr;
+   }
+   virtual bool select(const Movies* movie, int row) const {
+      if(!(ptr->select(movie, row))) {
+         return true;
+      }
+      else {
+         return false;
+      }
+   }
+};
 
 #endif
