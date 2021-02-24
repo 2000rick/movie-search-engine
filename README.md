@@ -1,4 +1,4 @@
- # Latest Movie Recommendations
+ # Movie Search Engine
  
 Authors: 
 
