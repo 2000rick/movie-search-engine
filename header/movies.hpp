@@ -14,6 +14,7 @@ private:
   std::vector<std::vector<std::vector<std::string>>> data;
   Select* select = nullptr;
 
+  bool valid(std::string& query); //search function helper
   void set_selection(Select* new_select);
   bool update(int id);
   void set_column_names(const std::vector<std::string>& names);
@@ -22,7 +23,7 @@ private:
 public:
   ~Movies()
   std::vector<std::string>& cell_data(int row, int column);
-  bool search(string& query);
+  bool search(std::string& query);
   void print_selection(std::ostream& out) const;
   void clear();
   bool update(string sort, int n);

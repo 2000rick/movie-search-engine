@@ -18,6 +18,7 @@ void Movies::set_selection(Select* new_select) {
 }
 
 bool Movies::search(std::string& query) {
+    if(!valid(query)) return false;
 	std::stringstream stream(query);
 	std::string word = "";
     while (stream >> word)
@@ -68,6 +69,11 @@ bool Movies::search(std::string& query) {
             set_selection(new Select_Contains(this, left, right));
         }
     }
+
+    return true;
+}
+
+bool Movies::valid(std::string &query) {
 
     return true;
 }
