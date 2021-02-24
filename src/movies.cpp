@@ -106,7 +106,7 @@ bool Movies::update(int id){
       if (jsonData["popularity"].isDouble()) {
         popularityData.push_back(jsonData["popularity"].asString());
       }
-      movieData.push_back(overviewData);
+      movieData.push_back(popularityData);
 
       //Production_Companies_Name and Production_Companies_Origin_Country
       vector<string> productionCompaniesNameData;
