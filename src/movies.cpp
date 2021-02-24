@@ -89,6 +89,25 @@ bool Movies::valid(std::string &query) {
             if(word.find('=') == string::npos) return false;
         }
     }
+    //Query cannot end with an operator
+    if(word == "NOT" || word == "AND" || word == "OR") return false;
+    /*NO binary operator should be immedidately followed by another binary operator
+    e.g. Genre=Action AND OR Actor=Elizabeth IS INVALID
+    Operator NOT cannot be followed by another operator
+    e.g. "NOT NOT Genre=Action" is not allowed, "Genre=Action AND NOT OR Actor=Matt" is invalid
+    */
+    std::stringstream s2(query);
+    while(s >> word)
+    {
+        if(word == "AND" || word == "OR" || word == "NOT") {
+            if(word == "NOT") {
+                s >> word;
+                if(word == "AND" || word == "OR" || word == "NOT") return false;
+            }
+            s >> word;
+            if(word == "AND" || word == "OR" ) return false;
+        }
+    }
 
     return true;
 }
