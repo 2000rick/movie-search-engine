@@ -19,7 +19,12 @@ bool search(std::string& query) {
 		    if(word == "NOT") {}
 		    else if(word == "AND"){}
 		    else if(word == "OR") {}
-		    else {}
+		    else {
+			 unsigned i = word.find('=');
+			 std::string left = word.substr(0,i);    //left is column name
+			 std::string right = word.substr(i+1,word.size()-1); //right is desired criterion
+			 set_selection(new Select_Contains(this, left, right));
+		    }
 	    }
 
 	        return true;
