@@ -97,14 +97,14 @@ bool Movies::valid(std::string &query) {
     e.g. "NOT NOT Genre=Action" is not allowed, "Genre=Action AND NOT OR Actor=Matt" is invalid
     */
     std::stringstream s2(query);
-    while(s >> word)
+    while(s2 >> word)
     {
         if(word == "AND" || word == "OR" || word == "NOT") {
             if(word == "NOT") {
-                s >> word;
+                s2 >> word;
                 if(word == "AND" || word == "OR" || word == "NOT") return false;
             }
-            s >> word;
+            s2 >> word;
             if(word == "AND" || word == "OR" ) return false;
         }
     }
