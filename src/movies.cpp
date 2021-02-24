@@ -74,6 +74,21 @@ bool Movies::search(std::string& query) {
 }
 
 bool Movies::valid(std::string &query) {
+    //All queries must have an '='
+    if(query.find('=') == string::npos) return false;
+    //Query cannot begin with a binary operator (AND or OR)
+    std::stringstream s(query);
+	std::string word = "";
+    s >> word;
+    if(word == "AND" || word == "OR") return false;
+    //If an element in the query is not an operator, then it must contain '='
+    if(word != "NOT" && word.find('=') == string::npos) return false;
+    while(s >> word)
+    {
+        if(word != "NOT" && word != "AND" && word != "OR") {
+            if(word.find('=') == string::npos) return false;
+        }
+    }
 
     return true;
 }
