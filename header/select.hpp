@@ -2,6 +2,7 @@
 #define __SELECT_HPP__
 
 #include <string>
+#include <vector>
 
 class Select {
  public:
@@ -11,21 +12,21 @@ class Select {
    virtual ~Select() = default;
 };
 
-class Select_Contains: public Select_Column {
+class Select_Contains: public Select {
  protected:
    int column;
    std::string str;
  public:
    Select_Contains(const Movies* data, const std::string& column, const std::string& s) {
       this->column = data->get_column_by_name(column);
-      str = user_string;
+      str = s;
    }
    virtual bool select(const Movies* data, int row) const {
       return select(data->cell_data(row, column));
    }
    virtual bool select(const std::vector<std::string>& s) const {
       for (int i = 0; i < s.size(); ++i) {
-         if(s.at(i).find(keyword)) {
+         if(s.at(i).find(str)) {
             return true;
          }
       }
