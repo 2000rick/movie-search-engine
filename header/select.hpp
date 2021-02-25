@@ -14,11 +14,11 @@ class Select {
 class Select_Contains: public Select_Column {
  protected:
    int column;
-   std::string keyword;
+   std::string str;
  public:
    Select_Contains(const Movies* data, const std::string& column, const std::string& s) {
-      column = data->get_column_by_name(name);
-      keyword = user_string;
+      this->column = data->get_column_by_name(column);
+      str = user_string;
    }
    virtual bool select(const Movies* data, int row) const {
       return select(data->cell_data(row, column));
@@ -35,19 +35,19 @@ class Select_Contains: public Select_Column {
 
 class Select_And: public Select {
  protected:
-   Select* left = nullptr;
-   Select* right = nullptr;
+   Select* s0 = nullptr;
+   Select* s1 = nullptr;
  public:
-   Select_And(Select* lhs, Select* rhs) {
-      left = lhs;
-      right = rhs;
+   Select_And(Select* i0, Select* i1) {
+      s0 = i0;
+      s1 = i1;
    }
    virtual ~Select_And() {
-      delete left;
-      delete right;
+      delete s0;
+      delete s1;
    }
-   virtual bool select(const Movies* movie, int row) const {
-      if (left->select(movie, row) && right->select(movie, row)) {
+   virtual bool select(const Movies* data, int row) const {
+      if (s0->select(data, row) && s1->select(data, row)) {
          return true;
       }
       else {
@@ -58,16 +58,16 @@ class Select_And: public Select {
 
 class Select_Not: public Select {
  protected:
-   Select* ptr = nullptr;
+   Select* s0 = nullptr;
  public:
-   Select_Not(Select* p) {
-      ptr = p;
+   Select_Not(Select* i0) {
+      s0 = i0;
    }
    virtual ~Select_Not() {
-      delete ptr;
+      delete s0;
    }
-   virtual bool select(const Movies* movie, int row) const {
-      if(!(ptr->select(movie, row))) {
+   virtual bool select(const Movies* data, int row) const {
+      if(!(s0->select(data, row))) {
          return true;
       }
       else {
@@ -78,19 +78,19 @@ class Select_Not: public Select {
 
 class Select_Or: public Select {
  protected:
-   Select* left = nullptr;
-   Select* right = nullptr;
+   Select* s0 = nullptr;
+   Select* s1 = nullptr;
  public:
-   Select_Or(Select* lhs, Select* rhs) {
-      left = lhs;
-      right = rhs;
+   Select_Or(Select* i0, Select* i1) {
+      s0 = i0;
+      s1 = i1;
    }
    virtual ~Select_Or() {
-      delete left;
-      delete right;
+      delete s0;
+      delete s1;
    }
-   virtual bool select(const Movies* movie, int row) const {
-      if(left->select(movie, row) || right->select(movie, row)) return true;
+   virtual bool select(const Movies* data, int row) const {
+      if(s0->select(data, row) || s1->select(data, row)) return true;
       return false;
    }
 };
