@@ -6,31 +6,22 @@
 class Select {
  public:
    // Return true if row should be selected
-   virtual bool select(const Movies* movie, int row) const = 0;
+   virtual bool select(const Movies* data, int row) const = 0;
 
    virtual ~Select() = default;
 };
 
-class Select_Column: public Select {
- protected:
-   int column;
- public:
-   Select_Column(const Movies* movie, const std::string& name) {
-      column = movie->get_column_by_name(name);
-   }
-   virtual bool select(const Movies* movie, int row) const {
-      return select(movie->cell_data(row, column));
-   }
-   // For derived classes
-   virtual bool select(const std::vector<std::string>& v) const = 0;
-};
-
 class Select_Contains: public Select_Column {
  protected:
+   int column;
    std::string keyword;
  public:
-   Select_Contains(const Movies* movie, const std::string& category_name, const std::string& user_string): Select_Column(movie, category_name) {
+   Select_Contains(const Movies* data, const std::string& column, const std::string& s) {
+      column = data->get_column_by_name(name);
       keyword = user_string;
+   }
+   virtual bool select(const Movies* data, int row) const {
+      return select(data->cell_data(row, column));
    }
    virtual bool select(const std::vector<std::string>& s) const {
       for (int i = 0; i < s.size(); ++i) {
