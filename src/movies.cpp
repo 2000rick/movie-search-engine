@@ -12,6 +12,10 @@
 
 using namespace std;
 
+Movies::~Movies() {
+  delete select;
+}
+
 void Movies::set_selection(Select* new_select) {
     delete select;
     select = new_select;
@@ -32,18 +36,19 @@ void Movies::set_column_names(const std::vector<std::string>& names)
 
 void Movies::clear()
 {
+  //cout << "Clearing!" << endl;
 	column_names.clear();
 	data.clear();
 	delete select;
 	select = nullptr;
 }
 
-std::vector<std::string>& Movies::cell_data(int row, int column)
+const std::vector<std::string>& Movies::cell_data(int row, int column) const
 {
 	return data.at(row).at(column);
 }
 
-void Movies::add_vector(const std::vector<std::vector<std::string>>& row_data) 
+void Movies::add_vector(const std::vector<std::vector<std::string>>& row_data)
 {//fix, reference from l5 add_row
 	data.push_back(row_data);
 }
@@ -66,7 +71,7 @@ bool Movies::search(std::string& query) {
             if(word == "NOT") {
                 stream >> word;
                 unsigned i = word.find('=');
-                std::string left = word.substr(0,i);    
+                std::string left = word.substr(0,i);
                 std::string right = word.substr(i+1,word.size()-1);
                 set_selection( new Select_And(select, new Select_Not(new Select_Contains(this, left, right))) );
             }
@@ -74,7 +79,7 @@ bool Movies::search(std::string& query) {
                 unsigned i = word.find('=');
                 std::string left = word.substr(0,i);
                 std::string right = word.substr(i+1,word.size()-1);
-                set_selection(new Select_And(select, new Select_Contains(this,left,right))); 
+                set_selection(new Select_And(select, new Select_Contains(this,left,right)));
             }
         }
         else if(word == "OR") {
@@ -82,7 +87,7 @@ bool Movies::search(std::string& query) {
             if(word == "NOT") {
                 stream >> word;
                 unsigned i = word.find('=');
-                std::string left = word.substr(0,i);    
+                std::string left = word.substr(0,i);
                 std::string right = word.substr(i+1,word.size()-1);
                 set_selection( new Select_Or(select, new Select_Not(new Select_Contains(this, left, right))) );
             }
@@ -90,7 +95,7 @@ bool Movies::search(std::string& query) {
                 unsigned i = word.find('=');
                 std::string left = word.substr(0,i);
                 std::string right = word.substr(i+1,word.size()-1);
-                set_selection(new Select_Or(select, new Select_Contains(this,left,right))); 
+                set_selection(new Select_Or(select, new Select_Contains(this,left,right)));
             }
         }
         else {
@@ -346,6 +351,8 @@ bool Movies::movie_update(string sort, int n){
   int movieCount = n;
   int totalPages = 1;
 
+  //cout << "Updating!" << endl;
+
   if (sort == "trending") {
     baseUrl = "https://api.themoviedb.org/3/trending/movie/day?api_key=" + api_key;
   } else if (sort == "now_playing") {
@@ -384,6 +391,8 @@ bool Movies::movie_update(string sort, int n){
   column_names.push_back("vote_count");
   set_column_names(column_names);
 
+  //cout << "Columns added!" << endl;
+
   for (int i = 1; i <= n/20+1 && i <= totalPages; i++){
     string url(baseUrl + "&page=" + to_string(i+1));
     long httpCode(0);
@@ -412,13 +421,14 @@ bool Movies::movie_update(string sort, int n){
         totalPages = jsonData["total_pages"].asInt();
 
         for (int j = 0; j < jsonData["results"].size() && movieCount > 0; j++) {
-          //count << movieCount << endl;
+          //cout << movieCount << endl;
           if (movie_update(jsonData["results"][j]["id"].asInt())) {
-            clear();
             movieCount--;
           } else {
+            clear();
             //cout << "Movie update failed!" << endl << url << endl;
           }
+        }
       }
       else {
         //cout << "Movie list parse failed!" << endl << "Page: " << i+1 << endl << url << endl;
@@ -441,172 +451,172 @@ void Movies::print_selection(std::ostream& out) const {
   }
   else if (select == nullptr) {
     for(int i = 0; i < data.size(); i++){
-      cout << "Budget: ";
-      if (!data[i][0].empty()) cout << data[i][0][0];
+      out << "Budget: ";
+      if (!data[i][0].empty()) out << data[i][0][0];
 
-      cout << endl << "Genres: ";
+      out << endl << "Genres: ";
       if (!data[i][1].empty()) {
         for (int j = 0; j < data[i][1].size()-1; j++){
-          cout << data[i][1][j] << ", ";
+          out << data[i][1][j] << ", ";
         }
-        cout << data[i][1].back();
+        out << data[i][1].back();
       }
 
-      cout << endl << "Homepage: ";
-      if (!data[i][2].empty()) cout << data[i][2][0];
+      out << endl << "Homepage: ";
+      if (!data[i][2].empty()) out << data[i][2][0];
 
-      cout << endl << "ID: ";
-      if (!data[i][3].empty()) cout << data[i][3][0];
+      out << endl << "ID: ";
+      if (!data[i][3].empty()) out << data[i][3][0];
 
-      cout << endl << "IMDB ID: ";
-      if (!data[i][4].empty()) cout << data[i][4][0];
+      out << endl << "IMDB ID: ";
+      if (!data[i][4].empty()) out << data[i][4][0];
 
-      cout << endl << "Original Language: ";
-      if (!data[i][5].empty()) cout << data[i][5][0];
+      out << endl << "Original Language: ";
+      if (!data[i][5].empty()) out << data[i][5][0];
 
-      cout << endl << "Original Title: ";
-      if (!data[i][6].empty()) cout << data[i][6][0];
+      out << endl << "Original Title: ";
+      if (!data[i][6].empty()) out << data[i][6][0];
 
-      cout << endl << "Overview: ";
-      if (!data[i][7].empty()) cout << data[i][7][0];
+      out << endl << "Overview: ";
+      if (!data[i][7].empty()) out << data[i][7][0];
 
-      cout << endl << "Popularity: ";
-      if (!data[i][8].empty()) cout << data[i][8][0];
+      out << endl << "Popularity: ";
+      if (!data[i][8].empty()) out << data[i][8][0];
 
-      cout << endl << "Production Companies: ";
+      out << endl << "Production Companies: ";
       if (!data[i][9].empty() && !data[i][10].empty()){
         for (int j = 0; j < data[i][9].size()-1; j++){
-          cout << data[i][9][j] << " (" << data[i][10][j] << "), ";
+          out << data[i][9][j] << " (" << data[i][10][j] << "), ";
         }
-        cout << data[i][9].back() << " (" << data[i][10].back() << ")" << endl;
+        out << data[i][9].back() << " (" << data[i][10].back() << ")" << endl;
       }
 
-      cout << "Production Countries: ";
+      out << "Production Countries: ";
       if (!data[i][11].empty()){
         for (int j = 0; j < data[i][11].size()-1; j++){
-          cout << data[i][11][j] << ", ";
+          out << data[i][11][j] << ", ";
         }
-        cout << data[i][11].back() << endl;
+        out << data[i][11].back() << endl;
       }
 
-      cout << "Release Date: ";
-      if (!data[i][12].empty()) cout << data[i][12][0] << endl;
+      out << "Release Date: ";
+      if (!data[i][12].empty()) out << data[i][12][0] << endl;
 
-      cout << "Revenue: ";
-      if (!data[i][13].empty()) cout << data[i][13][0] << endl;
+      out << "Revenue: ";
+      if (!data[i][13].empty()) out << data[i][13][0] << endl;
 
-      cout << "Runtime: ";
-      if (!data[i][14].empty()) cout << data[i][14][0] << endl;
+      out << "Runtime: ";
+      if (!data[i][14].empty()) out << data[i][14][0] << endl;
 
-      cout << "Spoken Languages: ";
+      out << "Spoken Languages: ";
       if (!data[i][15].empty()){
         for (int j = 0; j < data[i][15].size()-1; j++){
-          cout << data[i][15][j] << ", ";
+          out << data[i][15][j] << ", ";
         }
-        cout << data[i][15].back() << endl;
+        out << data[i][15].back() << endl;
       }
 
-      cout << "Status: ";
-      if (!data[i][16].empty()) cout << data[i][16][0] << endl;
+      out << "Status: ";
+      if (!data[i][16].empty()) out << data[i][16][0] << endl;
 
-      cout << "Tagline: ";
-      if (!data[i][17].empty()) cout << data[i][17][0] << endl;
+      out << "Tagline: ";
+      if (!data[i][17].empty()) out << data[i][17][0] << endl;
 
-      cout << "Title: ";
-      if (!data[i][18].empty()) cout << data[i][18][0] << endl;
+      out << "Title: ";
+      if (!data[i][18].empty()) out << data[i][18][0] << endl;
 
-      cout << "Vote Average: ";
-      if (!data[i][19].empty()) cout << data[i][19][0] << endl;
+      out << "Vote Average: ";
+      if (!data[i][19].empty()) out << data[i][19][0] << endl;
 
-      cout << "Vote Count: ";
-      if (!data[i][20].empty()) cout << data[i][20][0] << endl;
+      out << "Vote Count: ";
+      if (!data[i][20].empty()) out << data[i][20][0] << endl;
 
-      cout << "--------------------------------------------" << endl;
+      out << "--------------------------------------------" << endl;
     }
   } else {
     for(int i = 0; i < data.size(); i++){
       if (select->select(this, i)) {
-        cout << "Budget: ";
-        if (!data[i][0].empty()) cout << data[i][0][0];
+        out << "Budget: ";
+        if (!data[i][0].empty()) out << data[i][0][0];
 
-        cout << endl << "Genres: ";
+        out << endl << "Genres: ";
         if (!data[i][1].empty()) {
           for (int j = 0; j < data[i][1].size()-1; j++){
-            cout << data[i][1][j] << ", ";
+            out << data[i][1][j] << ", ";
           }
-          cout << data[i][1].back();
+          out << data[i][1].back();
         }
 
-        cout << endl << "Homepage: ";
-        if (!data[i][2].empty()) cout << data[i][2][0];
+        out << endl << "Homepage: ";
+        if (!data[i][2].empty()) out << data[i][2][0];
 
-        cout << endl << "ID: ";
-        if (!data[i][3].empty()) cout << data[i][3][0];
+        out << endl << "ID: ";
+        if (!data[i][3].empty()) out << data[i][3][0];
 
-        cout << endl << "IMDB ID: ";
-        if (!data[i][4].empty()) cout << data[i][4][0];
+        out << endl << "IMDB ID: ";
+        if (!data[i][4].empty()) out << data[i][4][0];
 
-        cout << endl << "Original Language: ";
-        if (!data[i][5].empty()) cout << data[i][5][0];
+        out << endl << "Original Language: ";
+        if (!data[i][5].empty()) out << data[i][5][0];
 
-        cout << endl << "Original Title: ";
-        if (!data[i][6].empty()) cout << data[i][6][0];
+        out << endl << "Original Title: ";
+        if (!data[i][6].empty()) out << data[i][6][0];
 
-        cout << endl << "Overview: ";
-        if (!data[i][7].empty()) cout << data[i][7][0];
+        out << endl << "Overview: ";
+        if (!data[i][7].empty()) out << data[i][7][0];
 
-        cout << endl << "Popularity: ";
-        if (!data[i][8].empty()) cout << data[i][8][0];
+        out << endl << "Popularity: ";
+        if (!data[i][8].empty()) out << data[i][8][0];
 
-        cout << endl << "Production Companies: ";
+        out << endl << "Production Companies: ";
         if (!data[i][9].empty() && !data[i][10].empty()){
           for (int j = 0; j < data[i][9].size()-1; j++){
-            cout << data[i][9][j] << " (" << data[i][10][j] << "), ";
+            out << data[i][9][j] << " (" << data[i][10][j] << "), ";
           }
-          cout << data[i][9].back() << " (" << data[i][10].back() << ")" << endl;
+          out << data[i][9].back() << " (" << data[i][10].back() << ")" << endl;
         }
 
-        cout << "Production Countries: ";
+        out << "Production Countries: ";
         if (!data[i][11].empty()){
           for (int j = 0; j < data[i][11].size()-1; j++){
-            cout << data[i][11][j] << ", ";
+            out << data[i][11][j] << ", ";
           }
-          cout << data[i][11].back() << endl;
+          out << data[i][11].back() << endl;
         }
 
-        cout << "Release Date: ";
-        if (!data[i][12].empty()) cout << data[i][12][0] << endl;
+        out << "Release Date: ";
+        if (!data[i][12].empty()) out << data[i][12][0] << endl;
 
-        cout << "Revenue: ";
-        if (!data[i][13].empty()) cout << data[i][13][0] << endl;
+        out << "Revenue: ";
+        if (!data[i][13].empty()) out << data[i][13][0] << endl;
 
-        cout << "Runtime: ";
-        if (!data[i][14].empty()) cout << data[i][14][0] << endl;
+        out << "Runtime: ";
+        if (!data[i][14].empty()) out << data[i][14][0] << endl;
 
-        cout << "Spoken Languages: ";
+        out << "Spoken Languages: ";
         if (!data[i][15].empty()){
           for (int j = 0; j < data[i][15].size()-1; j++){
-            cout << data[i][15][j] << ", ";
+            out << data[i][15][j] << ", ";
           }
-          cout << data[i][15].back() << endl;
+          out << data[i][15].back() << endl;
         }
 
-        cout << "Status: ";
-        if (!data[i][16].empty()) cout << data[i][16][0] << endl;
+        out << "Status: ";
+        if (!data[i][16].empty()) out << data[i][16][0] << endl;
 
-        cout << "Tagline: ";
-        if (!data[i][17].empty()) cout << data[i][17][0] << endl;
+        out << "Tagline: ";
+        if (!data[i][17].empty()) out << data[i][17][0] << endl;
 
-        cout << "Title: ";
-        if (!data[i][18].empty()) cout << data[i][18][0] << endl;
+        out << "Title: ";
+        if (!data[i][18].empty()) out << data[i][18][0] << endl;
 
-        cout << "Vote Average: ";
-        if (!data[i][19].empty()) cout << data[i][19][0] << endl;
+        out << "Vote Average: ";
+        if (!data[i][19].empty()) out << data[i][19][0] << endl;
 
-        cout << "Vote Count: ";
-        if (!data[i][20].empty()) cout << data[i][20][0] << endl;
+        out << "Vote Count: ";
+        if (!data[i][20].empty()) out << data[i][20][0] << endl;
 
-        cout << "--------------------------------------------" << endl;
+        out << "--------------------------------------------" << endl;
       }
     }
   }

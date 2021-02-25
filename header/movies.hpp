@@ -20,14 +20,14 @@ private:
   bool movie_update(int id);
   void set_column_names(const std::vector<std::string>& names);
   void add_vector(const std::vector<std::vector<std::string>>& row_data);
-  int get_column_by_name(const std::string& name) const;
 public:
-  ~Movies()
-  std::vector<std::string>& cell_data(int row, int column);
+  ~Movies();
+  const std::vector<std::string>& cell_data(int row, int column) const;
   bool search(std::string& query);
   void print_selection(std::ostream& out) const;
   void clear();
-  bool movie_update(string sort, int n);
+  bool movie_update(std::string sort, int n);
+  int get_column_by_name(const std::string& name) const;
 };
 
 #endif

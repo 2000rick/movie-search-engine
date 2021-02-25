@@ -21,12 +21,13 @@ class Select_Contains: public Select {
       this->column = data->get_column_by_name(column);
       str = s;
    }
-   virtual bool select(const Movies* data, int row) const {
-      return select(data->cell_data(row, column));
+   bool select(const Movies* data, int row) const {
+     if (column == -1){ return false; }
+     else { return select(data->cell_data(row, column)); }
    }
-   virtual bool select(const std::vector<std::string>& s) const {
+   bool select(const std::vector<std::string>& s) const {
       for (int i = 0; i < s.size(); ++i) {
-         if(s.at(i).find(str)) {
+         if(s.at(i).find(str) != std::string::npos) {
             return true;
          }
       }
@@ -43,11 +44,11 @@ class Select_And: public Select {
       s0 = i0;
       s1 = i1;
    }
-   virtual ~Select_And() {
+   ~Select_And() {
       delete s0;
       delete s1;
    }
-   virtual bool select(const Movies* data, int row) const {
+   bool select(const Movies* data, int row) const {
       if (s0->select(data, row) && s1->select(data, row)) {
          return true;
       }
@@ -64,10 +65,10 @@ class Select_Not: public Select {
    Select_Not(Select* i0) {
       s0 = i0;
    }
-   virtual ~Select_Not() {
+   ~Select_Not() {
       delete s0;
    }
-   virtual bool select(const Movies* data, int row) const {
+   bool select(const Movies* data, int row) const {
       if(!(s0->select(data, row))) {
          return true;
       }
@@ -86,11 +87,11 @@ class Select_Or: public Select {
       s0 = i0;
       s1 = i1;
    }
-   virtual ~Select_Or() {
+   ~Select_Or() {
       delete s0;
       delete s1;
    }
-   virtual bool select(const Movies* data, int row) const {
+   bool select(const Movies* data, int row) const {
       if(s0->select(data, row) || s1->select(data, row)) return true;
       return false;
    }
