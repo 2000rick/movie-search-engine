@@ -22,7 +22,7 @@ class Select_Column: public Select {
       return select(movie->cell_data(row, column));
    }
    // For derived classes
-   virtual bool select(const std::string& s) const = 0;
+   virtual bool select(const std::vector<std::string>& v) const = 0;
 };
 
 class Select_Contains: public Select_Column {
@@ -32,8 +32,12 @@ class Select_Contains: public Select_Column {
    Select_Contains(const Movies* movie, const std::string& category_name, const std::string& user_string): Select_Column(movie, category_name) {
       keyword = user_string;
    }
-   virtual bool select(const std::string& s) const {
-      if(s.find(keyword) != std::string::npos) return true;
+   virtual bool select(const std::vector<std::string>& s) const {
+      for (int i = 0; i < s.size(); ++i) {
+         if(s.at(i).find(keyword)) {
+            return true;
+         }
+      }
       return false;
    }
 };
