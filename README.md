@@ -35,7 +35,7 @@ Google Test
 
 Input/output of project:
 
-Input: A search query. Optional: Specify how the movies are sorted. Specifcy how many movies to display.
+Input: User specifies how the movies are sorted (trending, upcoming, or top_rated), how many movies to display, and a search query. 
 
 Output: A list of movies that matches the user's search query.
 
@@ -62,24 +62,16 @@ Movies: This is the context class, it holds a Select pointer, movie data, among 
 
 Select: Interface, abstract class.
 
-Select_Contains: A concrete strategy. Returns true if row(the movie) should be printed.
+Select_Contains: A concrete strategy. The select function returns true if the row(the movie) should be printed.
 
-Select_Not: A concrete strategy that takes another Select pointer as input and performs the NOT logic operation. Returns true if the row(the movie) should be printed.
+Select_Not: A concrete strategy that takes another Select pointer as input and performs the NOT logic operation. The method determines if some movie should be printed (if calling select from the input returns false).
 
-Select_And: A concrete strategy that takes other Select pointers as input and performs the AND logic operation. Returns true if the row(the movie) should be printed.
+Select_And: A concrete strategy that takes other Select pointers as input and performs the AND logic operation. The method determines if some movie should be printed (if calling select for both inputs returns true).
 
-Select_Or: A concrete strategy that takes two Select pointers as input and performs the OR logic operation. Returns true if the row(the movie) should be printed.
+Select_Or: A concrete strategy that takes two Select pointers as input and performs the OR logic operation. The method determines if some movie should be displayed (if calling select for either one of the inputs returns true).
 
 
  
- > ## Phase III
- > You will need to schedule a check-in with the TA (during lab hours or office hours). Your entire team must be present. 
- > * Before the meeting you should perform a sprint plan like you did in Phase II
- > * In the meeting with your TA you will discuss: 
- >   - How effective your last sprint was (each member should talk about what they did)
- >   - Any tasks that did not get completed last sprint, and how you took them into consideration for this sprint
- >   - Any bugs you've identified and created issues for during the sprint. Do you plan on fixing them in the next sprint or are they lower priority?
- >   - What tasks you are planning for this next sprint.
 
  > ## Final deliverable
  > All group members will give a demo to the TA during lab time. The TA will check the demo and the project GitHub repository and ask a few questions to all the team members. 
