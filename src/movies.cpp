@@ -40,7 +40,7 @@ void Movies::clear()
 
 std::vector<std::string>& Movies::cell_data(int row, int column)
 {
-	return data.at(row).at(column)
+	return data.at(row).at(column);
 }
 
 void Movies::add_vector(const std::vector<std::vector<std::string>>& row_data) 
