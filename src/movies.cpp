@@ -478,3 +478,37 @@ void Movies::print_selection(std::ostream& out) const {
     }
   }
 }
+
+//---------------------my-issues
+int Movies::get_column_by_name(const std::string& name) const
+{
+	for(int i=0; i<column_names.size(); i++)
+		if(column_names.at(i) == name)
+			return i;
+	return -1;
+}
+
+void Movies::set_column_names(const std::vector<std::string>& names)
+{
+	    column_names=names;
+}
+
+void Movies::clear()
+{
+	column_names.clear();
+	data.clear();
+	delete select;
+	select = nullptr;
+}
+
+std::vector<std::string>& Movies::cell_data(int row, int column)
+{
+	return data.at(row).at(column)
+}
+
+void Movies::add_vector(const std::vector<std::vector<std::string>>& row_data) 
+{//fix, reference from l5 add_row
+	data.push_back(row_data);
+}
+
+
