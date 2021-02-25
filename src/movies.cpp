@@ -17,7 +17,7 @@ Movies::~Movies() {
 }
 
 void Movies::set_selection(Select* new_select) {
-    delete select;
+    //delete select;
     select = new_select;
 }
 
