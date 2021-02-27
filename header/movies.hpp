@@ -16,6 +16,7 @@ private:
   std::string api_key = "8b6eb71dd22c58cfb6125ac835f94e2a";
 
   bool valid(std::string& query); //search function helper
+  Select* search_helper(std::stringstream& stream); //search function helper
   void set_selection(Select* new_select);
   bool movie_update(int id);
   void set_column_names(const std::vector<std::string>& names);
