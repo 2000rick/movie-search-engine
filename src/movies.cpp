@@ -72,27 +72,33 @@ bool Movies::search(std::string& query) {
         else if(word == "AND" || word == "and") {
             stream >> word;
             if(word == "NOT" || word == "not") {
-                stream >> word;
-                unsigned i = word.find('=');
-                std::string left = word.substr(0,i);
-                std::string right = word.substr(i+1,word.size()-1);
-                set_selection( new Select_And(select, new Select_Not(new Select_Contains(this, left, right))) );
+              stream >> word;
+              unsigned i = word.find('=');
+              std::string temp_left = word.substr(0, i);    
+              std::string right = word.substr(i+1, word.size()-1);
+              std::string left = "";
+              for(int i=0; i<temp_left.size(); ++i) { left += tolower(temp_left[i]); }
+              set_selection( new Select_And(select, new Select_Not(new Select_Contains(this, left, right))) );
             }
             else {
-                unsigned i = word.find('=');
-                std::string left = word.substr(0,i);
-                std::string right = word.substr(i+1,word.size()-1);
-                set_selection(new Select_And(select, new Select_Contains(this,left,right)));
+              unsigned i = word.find('=');
+              std::string temp_left = word.substr(0, i);    
+              std::string right = word.substr(i+1, word.size()-1);
+              std::string left = "";
+              for(int i=0; i<temp_left.size(); ++i) { left += tolower(temp_left[i]); }
+              set_selection(new Select_And(select, new Select_Contains(this,left,right)));
             }
         }
         else if(word == "OR" || word == "or") {
-            set_selection(new Select_Or(select, search_helper(stream))); 
+          set_selection(new Select_Or(select, search_helper(stream))); 
         }
         else {
-            unsigned i = word.find('=');
-            std::string left = word.substr(0,i);    //left is column name
-            std::string right = word.substr(i+1,word.size()-1); //right is desired criterion
-            set_selection(new Select_Contains(this, left, right));
+          unsigned i = word.find('=');
+          std::string temp_left = word.substr(0, i);    
+          std::string right = word.substr(i+1, word.size()-1);
+          std::string left = "";
+          for(int i=0; i<temp_left.size(); ++i) { left += tolower(temp_left[i]); }
+          set_selection(new Select_Contains(this, left, right));
         }
     }
 
@@ -116,27 +122,33 @@ Select* Movies::search_helper(std::stringstream& stream) {
         else if(word == "AND" || word == "and") {
             stream >> word;
             if(word == "NOT" || word == "not") {
-                stream >> word;
-                unsigned i = word.find('=');
-                std::string left = word.substr(0,i);
-                std::string right = word.substr(i+1,word.size()-1);
-                temp = new Select_And(temp, new Select_Not(new Select_Contains(this, left, right)));
+              stream >> word;
+              unsigned i = word.find('=');
+              std::string temp_left = word.substr(0, i);    
+              std::string right = word.substr(i+1, word.size()-1);
+              std::string left = "";
+              for(int i=0; i<temp_left.size(); ++i) { left += tolower(temp_left[i]); }
+              temp = new Select_And(temp, new Select_Not(new Select_Contains(this, left, right)));
             }
             else {
-                unsigned i = word.find('=');
-                std::string left = word.substr(0,i);
-                std::string right = word.substr(i+1,word.size()-1);
-                temp = new Select_And(temp, new Select_Contains(this,left,right));
+              unsigned i = word.find('=');
+              std::string temp_left = word.substr(0, i);    
+              std::string right = word.substr(i+1, word.size()-1);
+              std::string left = "";
+              for(int i=0; i<temp_left.size(); ++i) { left += tolower(temp_left[i]); }
+              temp = new Select_And(temp, new Select_Contains(this,left,right));
             }
         }
         else if(word == "OR" || word == "or") {
-            temp = new Select_Or(temp, search_helper(stream)); 
+          temp = new Select_Or(temp, search_helper(stream)); 
         }
         else {
-            unsigned i = word.find('=');
-            std::string left = word.substr(0,i);    //left is column name
-            std::string right = word.substr(i+1,word.size()-1); //right is desired criterion
-            temp = new Select_Contains(this, left, right);
+          unsigned i = word.find('=');
+          std::string temp_left = word.substr(0, i);    
+          std::string right = word.substr(i+1, word.size()-1);
+          std::string left = "";
+          for(int i=0; i<temp_left.size(); ++i) { left += tolower(temp_left[i]); }
+          temp = new Select_Contains(this, left, right);
         }
     }
 
