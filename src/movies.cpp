@@ -63,8 +63,10 @@ bool Movies::search(std::string& query) {
         if(word == "NOT" || word == "not") {
             stream >> word;
             unsigned i = word.find('=');
-            std::string left = word.substr(0,i);    //left is column name
-            std::string right = word.substr(i+1,word.size()-1); //right is desired criterion
+            std::string temp_left = word.substr(0, i);    //left is column name
+            std::string right = word.substr(i+1, word.size()-1); //right is desired criterion
+            std::string left = "";
+            for(int i=0; i<temp_left.size(); ++i) { left += tolower(temp_left[i]); }
             set_selection(new Select_Not(new Select_Contains(this, left, right)));
         }
         else if(word == "AND" || word == "and") {
@@ -98,15 +100,17 @@ bool Movies::search(std::string& query) {
 }
 
 Select* Movies::search_helper(std::stringstream& stream) {
-	std::string word = "";
+  	std::string word = "";
     Select* temp = nullptr;
     while (stream >> word)
     {
         if(word == "NOT" || word == "not") {
             stream >> word;
             unsigned i = word.find('=');
-            std::string left = word.substr(0,i);    //left is column name
-            std::string right = word.substr(i+1,word.size()-1); //right is desired criterion
+            std::string temp_left = word.substr(0, i);    //left is column name
+            std::string right = word.substr(i+1, word.size()-1); //right is desired criterion
+            std::string left = "";
+            for(int i=0; i<temp_left.size(); ++i) { left += tolower(temp_left[i]); } //Converts the user input column name to lowercase
             temp = new Select_Not(new Select_Contains(this, left, right));
         }
         else if(word == "AND" || word == "and") {
@@ -171,11 +175,13 @@ bool Movies::valid(std::string &query) {
     {
         if(logicOps.find(word) != logicOps.end()) {
             if(word == "NOT" || word == "not") {
-                s2 >> word;
-                if( logicOps.find(word) != logicOps.end() ) return false;
+              s2 >> word;
+              if( logicOps.find(word) != logicOps.end() ) return false;
             }
-            s2 >> word;
-            if(word == "AND" || word == "and" || word == "OR" || word == "or" ) return false;
+            else {
+              s2 >> word;
+              if(word == "AND" || word == "and" || word == "OR" || word == "or" ) return false;
+            }
         }
     }
 
