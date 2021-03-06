@@ -60,16 +60,16 @@ bool Movies::search(std::string& query) {
 	  std::string word = "";
     while (stream >> word)
     {
-        if(word == "NOT") {
+        if(word == "NOT" || word == "not") {
             stream >> word;
             unsigned i = word.find('=');
             std::string left = word.substr(0,i);    //left is column name
             std::string right = word.substr(i+1,word.size()-1); //right is desired criterion
             set_selection(new Select_Not(new Select_Contains(this, left, right)));
         }
-        else if(word == "AND") {
+        else if(word == "AND" || word == "and") {
             stream >> word;
-            if(word == "NOT") {
+            if(word == "NOT" || word == "not") {
                 stream >> word;
                 unsigned i = word.find('=');
                 std::string left = word.substr(0,i);
@@ -83,7 +83,7 @@ bool Movies::search(std::string& query) {
                 set_selection(new Select_And(select, new Select_Contains(this,left,right)));
             }
         }
-        else if(word == "OR") {
+        else if(word == "OR" || word == "or") {
             set_selection(new Select_Or(select, search_helper(stream))); 
         }
         else {
@@ -102,16 +102,16 @@ Select* Movies::search_helper(std::stringstream& stream) {
     Select* temp = nullptr;
     while (stream >> word)
     {
-        if(word == "NOT") {
+        if(word == "NOT" || word == "not") {
             stream >> word;
             unsigned i = word.find('=');
             std::string left = word.substr(0,i);    //left is column name
             std::string right = word.substr(i+1,word.size()-1); //right is desired criterion
             temp = new Select_Not(new Select_Contains(this, left, right));
         }
-        else if(word == "AND") {
+        else if(word == "AND" || word == "and") {
             stream >> word;
-            if(word == "NOT") {
+            if(word == "NOT" || word == "not") {
                 stream >> word;
                 unsigned i = word.find('=');
                 std::string left = word.substr(0,i);
@@ -125,7 +125,7 @@ Select* Movies::search_helper(std::stringstream& stream) {
                 temp = new Select_And(temp, new Select_Contains(this,left,right));
             }
         }
-        else if(word == "OR") {
+        else if(word == "OR" || word == "or") {
             temp = new Select_Or(temp, search_helper(stream)); 
         }
         else {
