@@ -1,9 +1,14 @@
 #ifndef __VALID__HPP__
 #define __VALID__HPP__
 
+#include <string>
+using std::string;
 bool valid(std::string &query);
 
-
+TEST(queryChecker, typical1) {
+    string str1 = "Genres=Action AND NOT Actor=Harry";
+    EXPECT_TRUE(valid(str1));
+}
 
 bool valid(std::string &query) {
     std::set<std::string> logicOps = { "NOT", "not", "AND", "and", "OR", "or"};
