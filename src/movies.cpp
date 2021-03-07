@@ -197,6 +197,15 @@ bool Movies::valid(std::string &query) {
         }
     }
 
+    std::stringstream s3(query);  //Explicitly checks for double negations "not not" because
+    while(s3 >> word)             //the previous check might fail to to do for certain cases(i.e. "Genres=Action AND NOT NOT Actor=Harry")
+    {                               
+      if(word == "NOT" || word == "not") {
+        s3 >> word;
+        if( logicOps.find(word) != logicOps.end() ) return false;
+      }
+    }
+
     return true;
 }
 
