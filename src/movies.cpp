@@ -55,6 +55,7 @@ void Movies::add_vector(const std::vector<std::vector<std::string>>& row_data)
 }
 
 bool Movies::search(std::string& query) {
+    if(query == "") return true;
     if(!valid(query)) return false;
 	  std::stringstream stream(query);
 	  std::string word = "";

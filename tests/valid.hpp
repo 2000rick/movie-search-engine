@@ -75,8 +75,19 @@ TEST(queryChecker, invalid6) {
     EXPECT_FALSE(valid(str1));
 }
 
+TEST(queryChecker, edge_valid) {
+    string str1 = "";
+    EXPECT_TRUE(valid(str1));
+}
+
+TEST(queryChecker, edge_valid2) {
+    string str1 = "=";
+    EXPECT_TRUE(valid(str1));
+}
+
 
 bool valid(std::string &query) {
+    if(query == "") return true;
     std::set<std::string> logicOps = { "NOT", "not", "AND", "and", "OR", "or"};
     //All queries must have an '='
     if(query.find('=') == string::npos) return false;
