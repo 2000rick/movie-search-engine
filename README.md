@@ -81,6 +81,7 @@ Select_Or: A concrete strategy that takes two Select pointers as input and perfo
  
  ## Screenshots
  > Screenshots of the input/output after running your application
+ ![finalProgramPic1](https://user-images.githubusercontent.com/65573447/110401456-72ee4180-802e-11eb-86ec-1fcfb77b3b6b.png)
  ## Installation/Usage
  > Instructions on installing and running your application
  ## Testing
