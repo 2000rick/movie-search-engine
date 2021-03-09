@@ -25,7 +25,12 @@ C++
 
 
 Tools:
-Google Test
+
+[Google Test](https://github.com/google/googletest)
+
+[CMake](https://cmake.org/)
+
+[GNU make](https://www.gnu.org/software/make/)
 
 [JsonCpp](https://github.com/open-source-parsers/jsoncpp), from `libjsoncpp-dev`
 
