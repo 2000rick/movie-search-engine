@@ -56,6 +56,7 @@ void Movies::add_vector(const std::vector<std::vector<std::string>>& row_data)
 }
 
 bool Movies::search(std::string& query) {
+    if(query == "") return true;
     if(!valid(query)) return false;
 	  std::stringstream stream(query);
 	  std::string word = "";
@@ -196,6 +197,15 @@ bool Movies::valid(std::string &query) {
               if(word == "AND" || word == "and" || word == "OR" || word == "or" ) return false;
             }
         }
+    }
+
+    std::stringstream s3(query);  //Explicitly checks for double negations "not not" because
+    while(s3 >> word)             //the previous check might fail to to do for certain cases(i.e. "Genres=Action AND NOT NOT Actor=Harry")
+    {                               
+      if(word == "NOT" || word == "not") {
+        s3 >> word;
+        if( logicOps.find(word) != logicOps.end() ) return false;
+      }
     }
 
     return true;
