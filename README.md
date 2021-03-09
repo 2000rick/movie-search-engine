@@ -129,3 +129,6 @@ The user search query is passed to `search`, which processes the query and updat
 Due to the dynamic nature of the application, we also created mock classes to help us test the program, which also makes testing easier as we can set and limit the movie data in the mock classes.
 
 Additionally, manual testing is performed to ensure that the application runs and behaves as expected.
+
+Finally, we utilized Github Actions to assist with integration testing.
+
