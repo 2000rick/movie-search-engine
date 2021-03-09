@@ -113,4 +113,10 @@ Run:
     ./movies
 
 ## Testing
-> How was your project tested/validated? If you used CI, you should have a "build passing" badge in this README.
+Unit tests are written for individual functions or a small set of functions if they are closely related or intertwined.
+
+For functions that makes sense to be tested individually but are private, we get around this by extracting them out to a test file. As in the case of a helper function to search - `bool valid(std::string& query)` 
+A fundamental flaw is the need to update the test file if changes are made to this function inside the Movies class.
+
+Because of the nature of some functions working closely with one another, some functions are tested together in the same set of tests. This is seen in the case of the functions `bool search(std::string& query)` and ` void print_selection(std::ostream& out)` and the `select` classes.
+The user search query is passed to `search`, which processes the query and updates the print selection criteria. When `print_selection` is called, it uses the `select` classes to help determine what should be printed.
