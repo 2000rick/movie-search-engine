@@ -7,6 +7,7 @@
 #include <memory>
 #include <sstream>
 #include <set>
+#include <fstream>
 
 #include <jsoncpp/json/json.h>
 #include <curl/curl.h>
@@ -75,7 +76,7 @@ bool Movies::search(std::string& query) {
             if(word == "NOT" || word == "not") {
               stream >> word;
               unsigned i = word.find('=');
-              std::string temp_left = word.substr(0, i);    
+              std::string temp_left = word.substr(0, i);
               std::string right = word.substr(i+1, word.size()-1);
               std::string left = "";
               for(int i=0; i<temp_left.size(); ++i) { left += tolower(temp_left[i]); }
@@ -83,7 +84,7 @@ bool Movies::search(std::string& query) {
             }
             else {
               unsigned i = word.find('=');
-              std::string temp_left = word.substr(0, i);    
+              std::string temp_left = word.substr(0, i);
               std::string right = word.substr(i+1, word.size()-1);
               std::string left = "";
               for(int i=0; i<temp_left.size(); ++i) { left += tolower(temp_left[i]); }
@@ -91,11 +92,11 @@ bool Movies::search(std::string& query) {
             }
         }
         else if(word == "OR" || word == "or") {
-          set_selection(new Select_Or(select, search_helper(stream))); 
+          set_selection(new Select_Or(select, search_helper(stream)));
         }
         else {
           unsigned i = word.find('=');
-          std::string temp_left = word.substr(0, i);    
+          std::string temp_left = word.substr(0, i);
           std::string right = word.substr(i+1, word.size()-1);
           std::string left = "";
           for(int i=0; i<temp_left.size(); ++i) { left += tolower(temp_left[i]); }
@@ -125,7 +126,7 @@ Select* Movies::search_helper(std::stringstream& stream) {
             if(word == "NOT" || word == "not") {
               stream >> word;
               unsigned i = word.find('=');
-              std::string temp_left = word.substr(0, i);    
+              std::string temp_left = word.substr(0, i);
               std::string right = word.substr(i+1, word.size()-1);
               std::string left = "";
               for(int i=0; i<temp_left.size(); ++i) { left += tolower(temp_left[i]); }
@@ -133,7 +134,7 @@ Select* Movies::search_helper(std::stringstream& stream) {
             }
             else {
               unsigned i = word.find('=');
-              std::string temp_left = word.substr(0, i);    
+              std::string temp_left = word.substr(0, i);
               std::string right = word.substr(i+1, word.size()-1);
               std::string left = "";
               for(int i=0; i<temp_left.size(); ++i) { left += tolower(temp_left[i]); }
@@ -141,11 +142,11 @@ Select* Movies::search_helper(std::stringstream& stream) {
             }
         }
         else if(word == "OR" || word == "or") {
-          temp = new Select_Or(temp, search_helper(stream)); 
+          temp = new Select_Or(temp, search_helper(stream));
         }
         else {
           unsigned i = word.find('=');
-          std::string temp_left = word.substr(0, i);    
+          std::string temp_left = word.substr(0, i);
           std::string right = word.substr(i+1, word.size()-1);
           std::string left = "";
           for(int i=0; i<temp_left.size(); ++i) { left += tolower(temp_left[i]); }
@@ -169,7 +170,7 @@ bool Movies::valid(std::string &query) {
     if(word != "NOT" && word != "not" && word.find('=') == string::npos) return false;
     while(s >> word)
     {
-        //if(word != "NOT" && word != "not" && word != "AND" && word != "and" && word != "OR" && word != "or") 
+        //if(word != "NOT" && word != "not" && word != "AND" && word != "and" && word != "OR" && word != "or")
         if(logicOps.find(word) == logicOps.end()) {
             if(word.find('=') == string::npos) return false;
         }
@@ -417,10 +418,13 @@ bool Movies::movie_update(string sort, int n){
 
   if (sort == "trending") {
     baseUrl = "https://api.themoviedb.org/3/trending/movie/day?api_key=" + api_key;
+    this->sort = "Trending";
   } else if (sort == "now_playing") {
     baseUrl = "https://api.themoviedb.org/3/movie/now_playing?api_key=" + api_key;
+    this->sort = "Now Playing";
   } else if (sort == "top_rated") {
     baseUrl = "https://api.themoviedb.org/3/movie/top_rated?api_key=" + api_key;
+    this->sort = "Top Rated";
   } else {
     //cout << "Sort name failed!" << endl << "Input: " << sort << endl;
     clear();
@@ -429,29 +433,7 @@ bool Movies::movie_update(string sort, int n){
 
   clear();
 
-  vector<string> column_names;
-  column_names.push_back("budget");
-  column_names.push_back("genres");
-  column_names.push_back("homepage");
-  column_names.push_back("id");
-  column_names.push_back("imdb_id");
-  column_names.push_back("original_language");
-  column_names.push_back("original_title");
-  column_names.push_back("overview");
-  column_names.push_back("popularity");
-  column_names.push_back("production_company_name");
-  column_names.push_back("production_company_country");
-  column_names.push_back("production_country");
-  column_names.push_back("release_date");
-  column_names.push_back("revenue");
-  column_names.push_back("runtime");
-  column_names.push_back("spoken_language");
-  column_names.push_back("status");
-  column_names.push_back("tagline");
-  column_names.push_back("title");
-  column_names.push_back("vote_average");
-  column_names.push_back("vote_count");
-  set_column_names(column_names);
+  init_column_names();
 
   //cout << "Columns added!" << endl;
 
@@ -512,6 +494,7 @@ void Movies::print_selection(std::ostream& out) const {
     return;
   }
   else if (select == nullptr) {
+    out << "--------------------------------------------" << endl;
     for(int i = 0; i < data.size(); i++){
       out << "Budget: ";
       if (!data[i][0].empty()) out << data[i][0][0];
@@ -596,6 +579,7 @@ void Movies::print_selection(std::ostream& out) const {
       out << "--------------------------------------------" << endl;
     }
   } else {
+    out << "--------------------------------------------" << endl;
     for(int i = 0; i < data.size(); i++){
       if (select->select(this, i)) {
         out << "Budget: ";
@@ -681,5 +665,239 @@ void Movies::print_selection(std::ostream& out) const {
         out << "--------------------------------------------" << endl;
       }
     }
+  }
+}
+
+bool Movies::movie_from_file(std::string fileName) {
+  std::string file("json/" + fileName);
+  std::ifstream fileData(file);
+  std::string stringData((std::istreambuf_iterator<char>(fileData)), std::istreambuf_iterator<char>());
+  fileData.close();
+
+  // cout << stringData << endl;
+
+  Json::Value jsonData;
+  Json::Reader jsonReader;
+
+  if (jsonReader.parse(stringData, jsonData)) {
+    vector<vector<string>> movieData;
+
+    //Budget
+    vector<string> budgetData;
+    if (jsonData["budget"].isInt()) {
+      budgetData.push_back(jsonData["budget"].asString());
+    }
+    movieData.push_back(budgetData);
+
+    //Genres
+    vector<string> genresData;
+    if (jsonData["genres"].isArray()) {
+      for (int i = 0; i < jsonData["genres"].size(); i++){
+        genresData.push_back(jsonData["genres"][i]["name"].asString());
+      }
+    }
+    movieData.push_back(genresData);
+
+    //Homepage
+    vector<string> homepageData;
+    if (jsonData["homepage"].isString()) {
+      homepageData.push_back(jsonData["homepage"].asString());
+    }
+    movieData.push_back(homepageData);
+
+    //ID
+    vector<string> idData;
+    if (jsonData["id"].isInt()) {
+      idData.push_back(jsonData["id"].asString());
+    }
+    movieData.push_back(idData);
+
+    //IMDB_ID
+    vector<string> imdbIdData;
+    if (jsonData["imdb_id"].isString()) {
+      imdbIdData.push_back(jsonData["imdb_id"].asString());
+    }
+    movieData.push_back(imdbIdData);
+
+    //Original_Language
+    vector<string> originalLanguageData;
+    if (jsonData["original_language"].isString()) {
+      originalLanguageData.push_back(jsonData["original_language"].asString());
+    }
+    movieData.push_back(originalLanguageData);
+
+    //Original_Title
+    vector<string> originalTitleData;
+    if (jsonData["original_title"].isString()) {
+      originalTitleData.push_back(jsonData["original_title"].asString());
+    }
+    movieData.push_back(originalTitleData);
+
+    //Overview
+    vector<string> overviewData;
+    if (jsonData["overview"].isString()) {
+      overviewData.push_back(jsonData["overview"].asString());
+    }
+    movieData.push_back(overviewData);
+
+    //Popularity
+    vector<string> popularityData;
+    if (jsonData["popularity"].isDouble()) {
+      popularityData.push_back(jsonData["popularity"].asString());
+    }
+    movieData.push_back(popularityData);
+
+    //Production_Companies_Name and Production_Companies_Origin_Country
+    vector<string> productionCompaniesNameData;
+    vector<string> productionCompaniesOriginCountryData;
+    if (jsonData["production_companies"].isArray()) {
+      for (int i = 0; i < jsonData["production_companies"].size(); i++){
+        productionCompaniesNameData.push_back(jsonData["production_companies"][i]["name"].asString());
+        productionCompaniesOriginCountryData.push_back(jsonData["production_companies"][i]["origin_country"].asString());
+      }
+    }
+    movieData.push_back(productionCompaniesNameData);
+    movieData.push_back(productionCompaniesOriginCountryData);
+
+    //Production_Countries
+    vector<string> productionCountriesData;
+    if (jsonData["production_countries"].isArray()) {
+      for (int i = 0; i < jsonData["production_countries"].size(); i++){
+        productionCountriesData.push_back(jsonData["production_countries"][i]["name"].asString());
+      }
+    }
+    movieData.push_back(productionCountriesData);
+
+    //Release_Date
+    vector<string> releaseDateData;
+    if (jsonData["release_date"].isString()) {
+      releaseDateData.push_back(jsonData["release_date"].asString());
+    }
+    movieData.push_back(releaseDateData);
+
+    //Revenue
+    vector<string> revenueData;
+    if (jsonData["revenue"].isInt()) {
+      revenueData.push_back(jsonData["revenue"].asString());
+    }
+    movieData.push_back(revenueData);
+
+    //Runtime
+    vector<string> runtimeData;
+    if (jsonData["runtime"].isInt()) {
+      runtimeData.push_back(jsonData["runtime"].asString());
+    }
+    movieData.push_back(runtimeData);
+
+    //Spoken_Languages
+    vector<string> spokenLanguagesData;
+    if (jsonData["spoken_languages"].isArray()) {
+      for (int i = 0; i < jsonData["spoken_languages"].size(); i++){
+        spokenLanguagesData.push_back(jsonData["spoken_languages"][i]["name"].asString());
+      }
+    }
+    movieData.push_back(spokenLanguagesData);
+
+    //Status
+    vector<string> statusData;
+    if (jsonData["status"].isString()) {
+      statusData.push_back(jsonData["status"].asString());
+    }
+    movieData.push_back(statusData);
+
+    //Tagline
+    vector<string> taglineData;
+    if (jsonData["tagline"].isString()) {
+      taglineData.push_back(jsonData["tagline"].asString());
+    }
+    movieData.push_back(taglineData);
+
+    //Title
+    vector<string> titleData;
+    if (jsonData["title"].isString()) {
+      titleData.push_back(jsonData["title"].asString());
+    }
+    movieData.push_back(titleData);
+
+    //Vote_Average
+    vector<string> voteAverageData;
+    if (jsonData["vote_average"].isDouble()) {
+      voteAverageData.push_back(jsonData["vote_average"].asString());
+    }
+    movieData.push_back(voteAverageData);
+
+    //Vote_Count
+    vector<string> voteCountData;
+    if (jsonData["vote_count"].isInt()) {
+      voteCountData.push_back(jsonData["vote_count"].asString());
+    }
+    movieData.push_back(voteCountData);
+
+    add_vector(movieData);
+  }
+  else {
+    // cout << "Movie parse failed!" << endl << "File: " << fileName << endl;
+    return false;
+  }
+  return true;
+}
+
+void Movies::init_column_names() {
+  vector<string> column_names;
+  column_names.push_back("budget");
+  column_names.push_back("genres");
+  column_names.push_back("homepage");
+  column_names.push_back("id");
+  column_names.push_back("imdb_id");
+  column_names.push_back("original_language");
+  column_names.push_back("original_title");
+  column_names.push_back("overview");
+  column_names.push_back("popularity");
+  column_names.push_back("production_company_name");
+  column_names.push_back("production_company_country");
+  column_names.push_back("production_country");
+  column_names.push_back("release_date");
+  column_names.push_back("revenue");
+  column_names.push_back("runtime");
+  column_names.push_back("spoken_language");
+  column_names.push_back("status");
+  column_names.push_back("tagline");
+  column_names.push_back("title");
+  column_names.push_back("vote_average");
+  column_names.push_back("vote_count");
+  set_column_names(column_names);
+}
+
+int Movies::return_num_movies(){
+  return data.size();
+}
+
+std::string Movies::return_sort(){
+  return sort;
+}
+
+void Movies::clear_select(){
+  delete select;
+  select = nullptr;
+}
+
+bool Movies::return_searched() {
+  return select != nullptr;
+}
+
+int Movies::num_searched() {
+  if (column_names.size() != 21) {
+    return 0;
+  }
+  else if (select == nullptr) {
+    return return_num_movies();
+  } else {
+    int n = 0;
+    for(int i = 0; i < data.size(); i++){
+      if (select->select(this, i)) {
+        n++;
+      }
+    }
+    return n;
   }
 }
