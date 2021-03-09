@@ -82,9 +82,12 @@ Select_Or: A concrete strategy that takes two Select pointers as input and perfo
  > * Complete the sections below (i.e. Screenshots, Installation/Usage, Testing)
  > * Plan one more sprint (that you will not necessarily complete before the end of the quarter). Your In-progress and In-testing columns should be empty (you are not doing more work currently) but your TODO column should have a full sprint plan in it as you have done before. This should include any known bugs (there should be some) or new features you would like to add. These should appear as issues/cards on your Kanban board.
 
+
 ## Screenshots
-> Screenshots of the input/output after running your application
+> (input/output after running application)
 >![finalProgramPic1](https://user-images.githubusercontent.com/65573447/110401907-54d51100-802f-11eb-827b-4ccd8492ff18.png)
+![finalProgramPic2](https://user-images.githubusercontent.com/65573447/110403407-e5acec00-8031-11eb-88df-3b438d0cca29.png)
+
 
 ## Installation/Usage
 
