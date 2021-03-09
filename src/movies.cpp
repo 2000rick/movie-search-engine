@@ -408,10 +408,13 @@ bool Movies::movie_update(string sort, int n){
 
   if (sort == "trending") {
     baseUrl = "https://api.themoviedb.org/3/trending/movie/day?api_key=" + api_key;
+    this->sort = "Trending";
   } else if (sort == "now_playing") {
     baseUrl = "https://api.themoviedb.org/3/movie/now_playing?api_key=" + api_key;
+    this->sort = "Now Playing";
   } else if (sort == "top_rated") {
     baseUrl = "https://api.themoviedb.org/3/movie/top_rated?api_key=" + api_key;
+    this->sort = "Top Rated";
   } else {
     //cout << "Sort name failed!" << endl << "Input: " << sort << endl;
     clear();
@@ -481,6 +484,7 @@ void Movies::print_selection(std::ostream& out) const {
     return;
   }
   else if (select == nullptr) {
+    out << "--------------------------------------------" << endl;
     for(int i = 0; i < data.size(); i++){
       out << "Budget: ";
       if (!data[i][0].empty()) out << data[i][0][0];
@@ -565,6 +569,7 @@ void Movies::print_selection(std::ostream& out) const {
       out << "--------------------------------------------" << endl;
     }
   } else {
+    out << "--------------------------------------------" << endl;
     for(int i = 0; i < data.size(); i++){
       if (select->select(this, i)) {
         out << "Budget: ";
@@ -851,4 +856,38 @@ void Movies::init_column_names() {
   column_names.push_back("vote_average");
   column_names.push_back("vote_count");
   set_column_names(column_names);
+}
+
+int Movies::return_num_movies(){
+  return data.size();
+}
+
+std::string Movies::return_sort(){
+  return sort;
+}
+
+void Movies::clear_select(){
+  delete select;
+  select = nullptr;
+}
+
+bool Movies::return_searched() {
+  return select != nullptr;
+}
+
+int Movies::num_searched() {
+  if (column_names.size() != 21) {
+    return 0;
+  }
+  else if (select == nullptr) {
+    return return_num_movies();
+  } else {
+    int n = 0;
+    for(int i = 0; i < data.size(); i++){
+      if (select->select(this, i)) {
+        n++;
+      }
+    }
+    return n;
+  }
 }
