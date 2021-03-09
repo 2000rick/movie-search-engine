@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <memory>
 #include <sstream>
+#include <set>
 
 #include <jsoncpp/json/json.h>
 #include <curl/curl.h>
@@ -59,74 +60,123 @@ bool Movies::search(std::string& query) {
 	  std::string word = "";
     while (stream >> word)
     {
-        if(word == "NOT") {
+        if(word == "NOT" || word == "not") {
             stream >> word;
             unsigned i = word.find('=');
-            std::string left = word.substr(0,i);    //left is column name
-            std::string right = word.substr(i+1,word.size()-1); //right is desired criterion
+            std::string temp_left = word.substr(0, i);    //left is column name
+            std::string right = word.substr(i+1, word.size()-1); //right is desired criterion
+            std::string left = "";
+            for(int i=0; i<temp_left.size(); ++i) { left += tolower(temp_left[i]); }
             set_selection(new Select_Not(new Select_Contains(this, left, right)));
         }
-        else if(word == "AND") {
+        else if(word == "AND" || word == "and") {
             stream >> word;
-            if(word == "NOT") {
-                stream >> word;
-                unsigned i = word.find('=');
-                std::string left = word.substr(0,i);
-                std::string right = word.substr(i+1,word.size()-1);
-                set_selection( new Select_And(select, new Select_Not(new Select_Contains(this, left, right))) );
+            if(word == "NOT" || word == "not") {
+              stream >> word;
+              unsigned i = word.find('=');
+              std::string temp_left = word.substr(0, i);    
+              std::string right = word.substr(i+1, word.size()-1);
+              std::string left = "";
+              for(int i=0; i<temp_left.size(); ++i) { left += tolower(temp_left[i]); }
+              set_selection( new Select_And(select, new Select_Not(new Select_Contains(this, left, right))) );
             }
             else {
-                unsigned i = word.find('=');
-                std::string left = word.substr(0,i);
-                std::string right = word.substr(i+1,word.size()-1);
-                set_selection(new Select_And(select, new Select_Contains(this,left,right)));
+              unsigned i = word.find('=');
+              std::string temp_left = word.substr(0, i);    
+              std::string right = word.substr(i+1, word.size()-1);
+              std::string left = "";
+              for(int i=0; i<temp_left.size(); ++i) { left += tolower(temp_left[i]); }
+              set_selection(new Select_And(select, new Select_Contains(this,left,right)));
             }
         }
-        else if(word == "OR") {
-            stream >> word;
-            if(word == "NOT") {
-                stream >> word;
-                unsigned i = word.find('=');
-                std::string left = word.substr(0,i);
-                std::string right = word.substr(i+1,word.size()-1);
-                set_selection( new Select_Or(select, new Select_Not(new Select_Contains(this, left, right))) );
-            }
-            else {
-                unsigned i = word.find('=');
-                std::string left = word.substr(0,i);
-                std::string right = word.substr(i+1,word.size()-1);
-                set_selection(new Select_Or(select, new Select_Contains(this,left,right)));
-            }
+        else if(word == "OR" || word == "or") {
+          set_selection(new Select_Or(select, search_helper(stream))); 
         }
         else {
-            unsigned i = word.find('=');
-            std::string left = word.substr(0,i);    //left is column name
-            std::string right = word.substr(i+1,word.size()-1); //right is desired criterion
-            set_selection(new Select_Contains(this, left, right));
+          unsigned i = word.find('=');
+          std::string temp_left = word.substr(0, i);    
+          std::string right = word.substr(i+1, word.size()-1);
+          std::string left = "";
+          for(int i=0; i<temp_left.size(); ++i) { left += tolower(temp_left[i]); }
+          set_selection(new Select_Contains(this, left, right));
         }
     }
 
     return true;
 }
 
+Select* Movies::search_helper(std::stringstream& stream) {
+  	std::string word = "";
+    Select* temp = nullptr;
+    while (stream >> word)
+    {
+        if(word == "NOT" || word == "not") {
+            stream >> word;
+            unsigned i = word.find('=');
+            std::string temp_left = word.substr(0, i);    //left is column name
+            std::string right = word.substr(i+1, word.size()-1); //right is desired criterion
+            std::string left = "";
+            for(int i=0; i<temp_left.size(); ++i) { left += tolower(temp_left[i]); } //Converts the user input column name to lowercase
+            temp = new Select_Not(new Select_Contains(this, left, right));
+        }
+        else if(word == "AND" || word == "and") {
+            stream >> word;
+            if(word == "NOT" || word == "not") {
+              stream >> word;
+              unsigned i = word.find('=');
+              std::string temp_left = word.substr(0, i);    
+              std::string right = word.substr(i+1, word.size()-1);
+              std::string left = "";
+              for(int i=0; i<temp_left.size(); ++i) { left += tolower(temp_left[i]); }
+              temp = new Select_And(temp, new Select_Not(new Select_Contains(this, left, right)));
+            }
+            else {
+              unsigned i = word.find('=');
+              std::string temp_left = word.substr(0, i);    
+              std::string right = word.substr(i+1, word.size()-1);
+              std::string left = "";
+              for(int i=0; i<temp_left.size(); ++i) { left += tolower(temp_left[i]); }
+              temp = new Select_And(temp, new Select_Contains(this,left,right));
+            }
+        }
+        else if(word == "OR" || word == "or") {
+          temp = new Select_Or(temp, search_helper(stream)); 
+        }
+        else {
+          unsigned i = word.find('=');
+          std::string temp_left = word.substr(0, i);    
+          std::string right = word.substr(i+1, word.size()-1);
+          std::string left = "";
+          for(int i=0; i<temp_left.size(); ++i) { left += tolower(temp_left[i]); }
+          temp = new Select_Contains(this, left, right);
+        }
+    }
+
+    return temp;
+}
+
 bool Movies::valid(std::string &query) {
+    std::set<std::string> logicOps = { "NOT", "not", "AND", "and", "OR", "or"};
     //All queries must have an '='
     if(query.find('=') == string::npos) return false;
     //Query cannot begin with a binary operator (AND or OR)
     std::stringstream s(query);
-	std::string word = "";
+	  std::string word = "";
     s >> word;
-    if(word == "AND" || word == "OR") return false;
+    if(word == "AND" || word == "and" || word == "OR" || word == "or") return false;
     //If an element in the query is not an operator, then it must contain '='
-    if(word != "NOT" && word.find('=') == string::npos) return false;
+    if(word != "NOT" && word != "not" && word.find('=') == string::npos) return false;
     while(s >> word)
     {
-        if(word != "NOT" && word != "AND" && word != "OR") {
+        //if(word != "NOT" && word != "not" && word != "AND" && word != "and" && word != "OR" && word != "or") 
+        if(logicOps.find(word) == logicOps.end()) {
             if(word.find('=') == string::npos) return false;
         }
     }
     //Query cannot end with an operator
-    if(word == "NOT" || word == "AND" || word == "OR") return false;
+    //if(word == "NOT" || word == "AND" || word == "OR" || word == "or" || word == "and" || word == "not") return false;
+    if(logicOps.find(word) != logicOps.end()) return false;
+
     /*NO binary operator should be immedidately followed by another binary operator
     e.g. Genre=Action AND OR Actor=Elizabeth IS INVALID
     Operator NOT cannot be followed by another operator
@@ -135,13 +185,15 @@ bool Movies::valid(std::string &query) {
     std::stringstream s2(query);
     while(s2 >> word)
     {
-        if(word == "AND" || word == "OR" || word == "NOT") {
-            if(word == "NOT") {
-                s2 >> word;
-                if(word == "AND" || word == "OR" || word == "NOT") return false;
+        if(logicOps.find(word) != logicOps.end()) {
+            if(word == "NOT" || word == "not") {
+              s2 >> word;
+              if( logicOps.find(word) != logicOps.end() ) return false;
             }
-            s2 >> word;
-            if(word == "AND" || word == "OR" ) return false;
+            else {
+              s2 >> word;
+              if(word == "AND" || word == "and" || word == "OR" || word == "or" ) return false;
+            }
         }
     }
 
