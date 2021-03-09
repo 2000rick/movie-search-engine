@@ -29,6 +29,8 @@ public:
   void clear();
   bool movie_update(std::string sort, int n);
   int get_column_by_name(const std::string& name) const;
+  bool movie_from_file(std::string fileName);
+  void init_column_names();
 };
 
 #endif
