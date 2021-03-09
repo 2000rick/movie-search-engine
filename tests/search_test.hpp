@@ -132,6 +132,41 @@ TEST(search, normal8) {
     EXPECT_EQ(oStr.str(), "Budget: 0\nGenres: Drama\nHomepage: https://www.focusfeatures.com/land\nSpoken Languages: English\nStatus: Released\nTitle: Land\n--------------------------------------------\n");
 }
 
+TEST(search, edge_noMatch) {
+    MoviesMock movies;
+    movies.movie_update("trending", 5);
+    std::stringstream oStr;
+    string test = "not budget=0";
+    if(movies.search(test)) {
+        movies.print_selection(oStr);
+    }
+    EXPECT_EQ(oStr.str(), "");
+}
+
+TEST(search, edge_noMatch_extend) {
+    MoviesMock movies;
+    movies.movie_update("trending", 5);
+    std::stringstream oStr;
+    string test = "not budget=0 and genres=Horror or genres=Drama and not BUDGET=0";
+    if(movies.search(test)) {
+        movies.print_selection(oStr);
+    }
+    EXPECT_EQ(oStr.str(), "");
+}
+
+TEST(search, edge_or_matching) {
+    MoviesMock movies;
+    movies.movie_update("trending", 5);
+    std::stringstream oStr;
+    string test = "not budget=0 or GENRES=Drama AND GENRES=Action";
+    if(movies.search(test)) {
+        movies.print_selection(oStr);
+    }
+    EXPECT_EQ(oStr.str(), "Budget: 0\nGenres: Horror, Action, Drama, War\nHomepage: http://www.shadowinthecloudfilm.com\nSpoken Languages: English\nStatus: Released\nTitle: Shadow in the Cloud\n--------------------------------------------\n");
+}
+
+
+
 
 
 
