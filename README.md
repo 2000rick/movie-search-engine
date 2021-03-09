@@ -59,9 +59,9 @@ We have added the factory design pattern because it will allow us to make the cr
 
 ## Class Diagram
 
-![Movie Search Engine](https://user-images.githubusercontent.com/77033594/108788556-161e6180-752d-11eb-868d-17c9c6bba4af.png)
+![Movie Search Engine](https://user-images.githubusercontent.com/66210660/110410050-19414380-803d-11eb-9d32-e0c581c6da2b.png)
 
-Movies: This is the context class, it holds a Select pointer, movie data, among others. The search function is intended to be a factory method (which we might extract to its own class). This class is what the end user will mostly be interacting with.
+Movies: This is the context class, it holds a Select pointer, movie data, among others. The search function is intended to be a factory method. This class is what the end user will mostly be interacting with.
 
 Select: Interface, abstract class. 
 
@@ -85,7 +85,7 @@ Select_Or: A concrete strategy that takes two Select pointers as input and perfo
 
 ## Screenshots
 > (input/output after running application)
->![finalProgramPic1](https://user-images.githubusercontent.com/65573447/110401907-54d51100-802f-11eb-827b-4ccd8492ff18.png)
+![finalProgramPic1](https://user-images.githubusercontent.com/65573447/110401907-54d51100-802f-11eb-827b-4ccd8492ff18.png)
 ![finalProgramPic2](https://user-images.githubusercontent.com/65573447/110403407-e5acec00-8031-11eb-88df-3b438d0cca29.png)
 
 
