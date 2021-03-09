@@ -14,6 +14,7 @@ private:
   std::vector<std::vector<std::vector<std::string>>> data;
   Select* select = nullptr;
   std::string api_key = "8b6eb71dd22c58cfb6125ac835f94e2a";
+  std::string sort;
 
   bool valid(std::string& query); //search function helper
   Select* search_helper(std::stringstream& stream); //search function helper
@@ -31,6 +32,11 @@ public:
   int get_column_by_name(const std::string& name) const;
   bool movie_from_file(std::string fileName);
   void init_column_names();
+  int return_num_movies();
+  std::string return_sort();
+  void clear_select();
+  bool return_searched();
+  int num_searched();
 };
 
 #endif
