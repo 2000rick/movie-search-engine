@@ -96,6 +96,7 @@ Build using [CMake](https://cmake.org)
 
     sudo apt install cmake
     sudo apt install make
+    sudo apt install g++
     cmake .
     make
 
