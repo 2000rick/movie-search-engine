@@ -38,7 +38,15 @@ int main(int argc, char** argv) {
     cout << "Something went wrong!" << endl;
     return 1;
   }
-
+  
   movies.print_selection(cout);
+
+  // READ FROM FILE EXAMPLE
+  // CREATE A FILE USING DATA FROM https://api.themoviedb.org/3/movie/<ID>?api_key=8b6eb71dd22c58cfb6125ac835f94e2a
+  // movies.init_column_names();
+  // movies.movie_from_file("10751.json");
+  // movies.movie_from_file("9602.json");
+  // movies.print_selection(cout);
+
   cout << endl;
 }
