@@ -97,18 +97,22 @@ Downloading dependencies using [APT](https://salsa.debian.org/apt-team/apt.git):
 
     sudo apt install libjsoncpp-dev
     sudo apt install libcurl4-openssl-dev
-
-Build using [CMake](https://cmake.org)
-
     sudo apt install cmake
     sudo apt install make
     sudo apt install g++
+
+Build using [CMake](https://cmake.org)
+
     cmake .
     make
 
-Run:
+Run program:
 
     ./movies
+    
+Run tests:
+
+    ./test
 
 ### Search Query Input/Format
 There are currently about 20 categories that the user search from, some of them are: budget, genres, homepage, spoken languages, titile, etc. (Run the program to see more)
