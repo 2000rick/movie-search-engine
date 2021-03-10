@@ -7,7 +7,7 @@ using namespace std;
 
 int main(int argc, char** argv) {
   Movies movies;
-  char input;
+  char input = 'a';
 
   while (input != 'q' && input != 'Q') {
     cout << "Number of movies in list: " << movies.return_num_movies() << endl;
