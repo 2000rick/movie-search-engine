@@ -127,16 +127,16 @@ Binary operators: "AND" & "OR"
 
 All search queries should follow the formats below for optimal results:
 
-Brackets [] means optional 
+Brackets [ ] means optional. 
 
-1. Simple query: [UnaryOp] <categoryName>=<desiredCriteria>
-2. Complexy query: [UnaryOp] <categoryName>=<desiredCriteria> <BinaryOp> [UnaryOp] <category2>=<criteria> <BinaryOp> [UnaryOp] <category3>=<criteria> (extend...)
+1. Simple query: [UnaryOp] &ltcategoryName>=&ltdesiredCriteria>
+2. Complexy query: [UnaryOp] &ltcategoryName>=&ltdesiredCriteria> &ltBinaryOp> [UnaryOp] &ltcategory2>=&ltcriteria> &ltBinaryOp> [UnaryOp] &ltcategory3>=&ltcriteria> (extend...)
 
 Examples:
 
 "STATUS=Released" or "genres=animation" or "TITLE=Endgame"
 
-not genres=action and not genres=family
+"not genres=action and not genres=family"
 
 "budget=150 and genres=Music and genres=Drama and genres=Family AND GENRES=Animation AND GENRES=Comedy AND GENRES=Fantasy"
 
@@ -152,7 +152,7 @@ The search query cannot begin with a binary operator ("AND" or "OR").
 
 Search query cannot end with an operator (e.g. "title=endgame and").
 
-NO binary operator should be immedidately followed by another binary operator (e.g. "Genre=Action AND OR Actor=Elizabeth" IS INVALID).
+No binary operator should be immedidately followed by another binary operator (e.g. "Genre=Action AND OR Actor=Elizabeth" IS INVALID).
 
 Operator "NOT" cannot be followed by another operator (e.g. "NOT NOT Genre=Action" is not allowed, "Genre=Action AND NOT OR Actor=Matt" is invalid).
 
