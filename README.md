@@ -91,12 +91,13 @@ Select_Or: A concrete strategy that takes two Select pointers as input and perfo
 
 Downloading Movie Search Engine:
 
-    git clone https://github.com/cs100/final-project-chard007-eyao004-mthom106-qlian015.git
+    git clone --recursive https://github.com/cs100/final-project-chard007-eyao004-mthom106-qlian015.git
 
 Downloading dependencies using [APT](https://salsa.debian.org/apt-team/apt.git):
 
     sudo apt install libjsoncpp-dev
     sudo apt install libcurl4-openssl-dev
+    sudo apt-get install libgtest-dev
     sudo apt install cmake
     sudo apt install make
     sudo apt install g++
@@ -128,7 +129,7 @@ Binary operators: "AND" & "OR"
 
 1. Simple query: [UnaryOp] &lt;categoryName>=&lt;desiredCriteria>
 
-2. Complexy query: [UnaryOp] &lt;categoryName>=&lt;desiredCriteria> &lt;BinaryOp> [UnaryOp] &lt;category2>=&lt;criteria> &lt;  BinaryOp> [UnaryOp] &lt;category3>=&lt;criteria> (extend...)
+2. Complexy query: [UnaryOp] &lt;categoryName>=&lt;desiredCriteria> &lt;BinaryOp> [UnaryOp] &lt;category2>=&lt;criteria> &lt;BinaryOp> [UnaryOp] &lt;category3>=&lt;criteria> (extend...)
 
 #### Examples:
 
