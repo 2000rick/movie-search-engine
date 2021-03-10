@@ -17,7 +17,7 @@ TEST(search, normal) {
     else {
         cout << "returned false\n";
     }
-    EXPECT_EQ(oStr.str(), "Budget: 155000000\nGenres: Action, Science Fiction\nHomepage: https://www.godzillavskong.com\nSpoken Languages: English\nStatus: Post Production\nTitle: Godzilla vs. Kong\n--------------------------------------------\n");
+    EXPECT_EQ(oStr.str(), "Budget: 155000000\nGenres: Action, Drama, Science Fiction\nHomepage: https://www.godzillavskong.com\nSpoken Languages: English\nStatus: Post Production\nTitle: Godzilla vs. Kong\n--------------------------------------------\n");
 }
 
 TEST(search, normal2) {
