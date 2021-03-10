@@ -129,8 +129,8 @@ All search queries should follow the formats below for optimal results:
 
 Brackets [ ] means optional. 
 
-1. Simple query: [UnaryOp] &ltcategoryName>=&ltdesiredCriteria>
-2. Complexy query: [UnaryOp] &ltcategoryName>=&ltdesiredCriteria> &ltBinaryOp> [UnaryOp] &ltcategory2>=&ltcriteria> &ltBinaryOp> [UnaryOp] &ltcategory3>=&ltcriteria> (extend...)
+1. Simple query: [UnaryOp] &lt;categoryName>=&lt;desiredCriteria>
+2. Complexy query: [UnaryOp] &lt;categoryName>=&lt;desiredCriteria> &lt;BinaryOp> [UnaryOp] &lt;category2>=&lt;criteria> &lt;BinaryOp> [UnaryOp] &lt;category3>=&lt;criteria> (extend...)
 
 Examples:
 
