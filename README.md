@@ -125,36 +125,36 @@ Unary operator: "NOT"
 
 Binary operators: "AND" & "OR"
 
-All search queries should follow the formats below for optimal results:
+#### All search queries should follow the formats below for optimal results:
 
-Brackets [ ] means optional. 
+    Brackets [ ] means optional. 
 
-1. Simple query: [UnaryOp] &lt;categoryName>=&lt;desiredCriteria>
-2. Complexy query: [UnaryOp] &lt;categoryName>=&lt;desiredCriteria> &lt;BinaryOp> [UnaryOp] &lt;category2>=&lt;criteria> &lt;BinaryOp> [UnaryOp] &lt;category3>=&lt;criteria> (extend...)
+    1. Simple query: [UnaryOp] &lt;categoryName>=&lt;desiredCriteria>
+    2. Complexy query: [UnaryOp] &lt;categoryName>=&lt;desiredCriteria> &lt;BinaryOp> [UnaryOp] &lt;category2>=&lt;criteria> &lt;  BinaryOp> [UnaryOp] &lt;category3>=&lt;criteria> (extend...)
 
-Examples:
+#### Examples:
 
-"STATUS=Released" or "genres=animation" or "TITLE=Endgame"
+    "STATUS=Released" or "genres=animation" or "TITLE=Endgame"
 
-"not genres=action and not genres=family"
+    "not genres=action and not genres=family"
 
-"budget=150 and genres=Music and genres=Drama and genres=Family AND GENRES=Animation AND GENRES=Comedy AND GENRES=Fantasy"
+    "budget=150 and genres=Music and genres=Drama and genres=Family AND GENRES=Animation AND GENRES=Comedy AND GENRES=Fantasy"
 
 #### Invalid Inputs Description:
 
-Search query can be an empty string, in which case all fetched movie data are selected.
+    Search query can be an empty string, in which case all fetched movie data are selected.
 
-Unless query is an empty string, all queries must have an equal sign '='.
+    Unless query is an empty string, all queries must have an equal sign '='.
 
-If an element in the query is not a logic operator, then it must contain '='.
+    If an element in the query is not a logic operator, then it must contain '='.
 
-The search query cannot begin with a binary operator ("AND" or "OR").
+    The search query cannot begin with a binary operator ("AND" or "OR").
 
-Search query cannot end with an operator (e.g. "title=endgame and").
+    Search query cannot end with an operator (e.g. "title=endgame and").
 
-No binary operator should be immedidately followed by another binary operator (e.g. "Genre=Action AND OR Actor=Elizabeth" IS INVALID).
+    No binary operator should be immedidately followed by another binary operator (e.g. "Genre=Action AND OR Actor=Elizabeth" IS INVALID).
 
-Operator "NOT" cannot be followed by another operator (e.g. "NOT NOT Genre=Action" is not allowed, "Genre=Action AND NOT OR Actor=Matt" is invalid).
+    Operator "NOT" cannot be followed by another operator (e.g. "NOT NOT Genre=Action" is not allowed, "Genre=Action AND NOT OR Actor=Matt" is invalid).
 
 
 ## Testing
