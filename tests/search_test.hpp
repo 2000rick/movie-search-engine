@@ -1,3 +1,6 @@
+#ifndef __SEARCH__HPP
+#define __SEARCH__HPP
+
 #include "../header/moviesMock.hpp"
 
 #include <iostream>
@@ -165,7 +168,7 @@ TEST(search, edge_or_matching) {
     EXPECT_EQ(oStr.str(), "Budget: 0\nGenres: Horror, Action, Drama, War\nHomepage: http://www.shadowinthecloudfilm.com\nSpoken Languages: English\nStatus: Released\nTitle: Shadow in the Cloud\n--------------------------------------------\n");
 }
 
-
+#endif
 
 
 

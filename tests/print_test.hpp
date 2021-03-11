@@ -1,5 +1,8 @@
-#include "../header/moviesMock.hpp"
+#ifndef __PRINT_TEST
+#define __PRINT_TEST
 
+#include "../header/moviesMock.hpp"
+#include "../header/selectMock.hpp"
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -88,6 +91,16 @@ TEST(movieUpdate, invalid3) {
     EXPECT_FALSE(movies.movie_update("knockKnock", 20));
 }
 
+TEST(select, caseS3) {
+    MoviesMock movies;
+    std::stringstream oStr;
+    movies.movie_update("trending", 2);
+    movies.set_selection( new Select_Contains(&movies, "title", "endgame") );
+    movies.print_selection(oStr);
+    EXPECT_EQ(oStr.str(), "Budget: 356000000\nGenres: Adventure, Science Fiction, Action\nHomepage: https://www.marvel.com/movies/avengers-endgame\nSpoken Languages: English, \xE6\x97\xA5\xE6\x9C\xAC\xE8\xAA\x9E\nStatus: Released\nTitle: Avengers: Endgame\n--------------------------------------------\n");
+}
+
+#endif
 
 
 

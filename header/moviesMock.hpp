@@ -17,12 +17,12 @@ private:
 
   bool valid(std::string& query); //search function helper
   Select* search_helper(std::stringstream& stream); //search function helper
-  void set_selection(Select* new_select);
   bool movie_update(int id);
   void set_column_names(const std::vector<std::string>& names);
   void add_vector(const std::vector<std::vector<std::string>>& row_data);
 public:
   ~MoviesMock();
+  void set_selection(Select* new_select);
   const std::vector<std::string>& cell_data(int row, int column) const;
   bool search(std::string& query);
   void print_selection(std::ostream& out) const;
