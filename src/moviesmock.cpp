@@ -1,5 +1,5 @@
 #include "../header/moviesMock.hpp"
-#include "../header/selectMock.hpp"
+#include "../header/select.hpp"
 
 #include <string>
 #include <iostream>
@@ -10,15 +10,15 @@
 
 using namespace std;
 
-MoviesMock::~MoviesMock() {
+Movies::~Movies() {
   delete select;
 }
 
-void MoviesMock::set_selection(Select* new_select) {
+void Movies::set_selection(Select* new_select) {
     select = new_select;
 }
 
-int MoviesMock::get_column_by_name(const std::string& name) const
+int Movies::get_column_by_name(const std::string& name) const
 {
 	for(int i=0; i<column_names.size(); i++)
 		if(column_names.at(i) == name)
@@ -26,12 +26,12 @@ int MoviesMock::get_column_by_name(const std::string& name) const
 	return -1;
 }
 
-void MoviesMock::set_column_names(const std::vector<std::string>& names)
+void Movies::set_column_names(const std::vector<std::string>& names)
 {
 	    column_names=names;
 }
 
-void MoviesMock::clear()
+void Movies::clear()
 {
 	column_names.clear();
 	data.clear();
@@ -39,17 +39,17 @@ void MoviesMock::clear()
 	select = nullptr;
 }
 
-const std::vector<std::string>& MoviesMock::cell_data(int row, int column) const
+const std::vector<std::string>& Movies::cell_data(int row, int column) const
 {
 	return data.at(row).at(column);
 }
 
-void MoviesMock::add_vector(const std::vector<std::vector<std::string>>& row_data)
+void Movies::add_vector(const std::vector<std::vector<std::string>>& row_data)
 {//fix, reference from l5 add_row
 	data.push_back(row_data);
 }
 
-bool MoviesMock::search(std::string& query) {
+bool Movies::search(std::string& query) {
     if(query == "") return true;
     if(!valid(query)) return false;
 	  std::stringstream stream(query);
@@ -101,7 +101,7 @@ bool MoviesMock::search(std::string& query) {
     return true;
 }
 
-Select* MoviesMock::search_helper(std::stringstream& stream) {
+Select* Movies::search_helper(std::stringstream& stream) {
   	std::string word = "";
     Select* temp = nullptr;
     while (stream >> word)
@@ -151,7 +151,7 @@ Select* MoviesMock::search_helper(std::stringstream& stream) {
     return temp;
 }
 
-bool MoviesMock::valid(std::string &query) {
+bool Movies::valid(std::string &query) {
     std::set<std::string> logicOps = { "NOT", "not", "AND", "and", "OR", "or"};
     //All queries must have an '='
     if(query.find('=') == string::npos) return false;
@@ -211,7 +211,7 @@ static size_t WriteCallback(const char* in, size_t size, size_t num, string* out
     return size * num;
 }
 
-bool MoviesMock::movie_update(int id){
+bool Movies::movie_update(int id){
       vector<vector<string>> movieData;
 
         return true;
@@ -254,7 +254,7 @@ bool MoviesMock::movie_update(int id){
   return true;
 }
 
-bool MoviesMock::movie_update(string sort, int n){
+bool Movies::movie_update(string sort, int n){
   string baseUrl;
   int movieCount = n;
   int totalPages = 1;
@@ -473,7 +473,7 @@ bool MoviesMock::movie_update(string sort, int n){
     return true;
 }
 
-void MoviesMock::print_selection(std::ostream& out) const {
+void Movies::print_selection(std::ostream& out) const {
   if (column_names.size() != 6) {
     return;
   }

@@ -8,7 +8,7 @@
 
 class Select;
 
-class MoviesMock {
+class Movies {
 private:
   std::vector<std::string> column_names;
   std::vector<std::vector<std::vector<std::string>>> data;
@@ -21,7 +21,7 @@ private:
   void set_column_names(const std::vector<std::string>& names);
   void add_vector(const std::vector<std::vector<std::string>>& row_data);
 public:
-  ~MoviesMock();
+  ~Movies();
   void set_selection(Select* new_select);
   const std::vector<std::string>& cell_data(int row, int column) const;
   bool search(std::string& query);
