@@ -83,7 +83,6 @@ Select_Or: A concrete strategy that takes two Select pointers as input and perfo
  > * Plan one more sprint (that you will not necessarily complete before the end of the quarter). Your In-progress and In-testing columns should be empty (you are not doing more work currently) but your TODO column should have a full sprint plan in it as you have done before. This should include any known bugs (there should be some) or new features you would like to add. These should appear as issues/cards on your Kanban board.
 
 ## Screenshots
-> (input/output after running application)
 ![finalScreen1 0](https://user-images.githubusercontent.com/65573447/110528323-e0e94600-80cc-11eb-9a78-58904c043053.png)
 ![finalScreen4 1](https://user-images.githubusercontent.com/65573447/110528346-e6df2700-80cc-11eb-8912-a15ea70564ca.png)
 
@@ -97,7 +96,9 @@ Downloading dependencies using [APT](https://salsa.debian.org/apt-team/apt.git):
 
     sudo apt install libjsoncpp-dev
     sudo apt install libcurl4-openssl-dev
-    sudo apt-get install libgtest-dev
+    
+Potential dependencies, likely already installed but just in case:
+
     sudo apt install cmake
     sudo apt install make
     sudo apt install g++
@@ -116,7 +117,7 @@ Run tests:
     ./test
 
 ### Search Query Input/Format
-There are currently about 20 categories that the user search from, some of them are: budget, genres, homepage, spoken languages, titile, etc. (Run the program to see more)
+There are currently about 20 categories that the user search from, some of them are: budget, genres, homepage, spoken languages, title, etc. (Run the program to see more)
 
 #### Logical operators:
 Unary operator: "NOT"
