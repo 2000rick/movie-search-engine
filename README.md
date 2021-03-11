@@ -1,3 +1,5 @@
+ [![CI](https://github.com/cs100/final-project-chard007-eyao004-mthom106-qlian015/actions/workflows/main.yml/badge.svg)](https://github.com/cs100/final-project-chard007-eyao004-mthom106-qlian015/actions/workflows/main.yml)
+ 
  # Movie Search Engine
 
 Authors:
@@ -164,4 +166,5 @@ Due to the dynamic nature of the application, we also created mock classes to he
 Additionally, manual testing is performed to ensure that the application runs and behaves as expected.
 
 Finally, we utilized Github Actions to assist with integration testing.
+
 
