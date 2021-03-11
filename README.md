@@ -75,13 +75,6 @@ Select_And: A concrete strategy that takes other Select pointers as input and pe
 
 Select_Or: A concrete strategy that takes two Select pointers as input and performs the OR logic operation. The method determines if some movie should be displayed (if calling select for either one of the inputs returns true).
 
-
- > ## Final deliverable
- > All group members will give a demo to the TA during lab time. The TA will check the demo and the project GitHub repository and ask a few questions to all the team members.
- > Before the demo, you should do the following:
- > * Complete the sections below (i.e. Screenshots, Installation/Usage, Testing)
- > * Plan one more sprint (that you will not necessarily complete before the end of the quarter). Your In-progress and In-testing columns should be empty (you are not doing more work currently) but your TODO column should have a full sprint plan in it as you have done before. This should include any known bugs (there should be some) or new features you would like to add. These should appear as issues/cards on your Kanban board.
-
 ## Screenshots
 ![finalScreen1 0](https://user-images.githubusercontent.com/65573447/110528323-e0e94600-80cc-11eb-9a78-58904c043053.png)
 ![finalScreen4 1](https://user-images.githubusercontent.com/65573447/110528346-e6df2700-80cc-11eb-8912-a15ea70564ca.png)
