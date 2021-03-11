@@ -11,7 +11,7 @@ ADD_EXECUTABLE(movies
 )
 
 ADD_EXECUTABLE(test
-    src/moviesmock.cpp
+    src/moviesMock.cpp
     tests/test.cpp
 )
 

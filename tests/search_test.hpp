@@ -1,3 +1,6 @@
+#ifndef __SEARCH__HPP
+#define __SEARCH__HPP
+
 #include "../header/moviesMock.hpp"
 
 #include <iostream>
@@ -7,7 +10,7 @@ using std::string;
 using std::cout; using std::endl;
 
 TEST(search, normal) {
-    MoviesMock movies;
+    Movies movies;
     movies.movie_update("trending", 5);
     std::stringstream oStr;
     string test = "budget=155";
@@ -21,7 +24,7 @@ TEST(search, normal) {
 }
 
 TEST(search, normal2) {
-    MoviesMock movies;
+    Movies movies;
     movies.movie_update("trending", 5);
     std::stringstream oStr;
     string test = "STATUS=Post";
@@ -32,7 +35,7 @@ TEST(search, normal2) {
 }
 
 TEST(search, normal3) {
-    MoviesMock movies;
+    Movies movies;
     movies.movie_update("trending", 5);
     std::stringstream oStr;
     string test = "GENRES=Animation";
@@ -43,7 +46,7 @@ TEST(search, normal3) {
 }
 
 TEST(search, normal4) {
-    MoviesMock movies;
+    Movies movies;
     movies.movie_update("trending", 5);
     std::stringstream oStr;
     string test = "homePAGE=shadowinthecloudfilm";
@@ -54,7 +57,7 @@ TEST(search, normal4) {
 }
 
 TEST(search, normal5) {
-    MoviesMock movies;
+    Movies movies;
     movies.movie_update("trending", 5);
     std::stringstream oStr;
     string test = "TITLE=Endgame";
@@ -65,7 +68,7 @@ TEST(search, normal5) {
 }
 
 TEST(search, normal6) {
-    MoviesMock movies;
+    Movies movies;
     movies.movie_update("trending", 5);
     std::stringstream oStr;
     string test = "budget=0 and genres=Music and genres=Drama or GENRES=Action AND genres=War";
@@ -76,7 +79,7 @@ TEST(search, normal6) {
 }
 
 TEST(search, normal7) {
-    MoviesMock movies;
+    Movies movies;
     movies.movie_update("trending", 5);
     std::stringstream oStr;
     string test = "budget=150 and genres=Music and genres=Drama and genres=Family AND GENRES=Animation AND GENRES=Comedy AND GENRES=Fantasy";
@@ -87,7 +90,7 @@ TEST(search, normal7) {
 }
 
 TEST(search, edge_emptyString) {
-    MoviesMock movies;
+    Movies movies;
     movies.movie_update("trending", 5);
     std::stringstream oStr;
     string test = "";
@@ -98,7 +101,7 @@ TEST(search, edge_emptyString) {
 }
 
 TEST(search, invalid_search) {
-    MoviesMock movies;
+    Movies movies;
     movies.movie_update("trending", 5);
     std::stringstream oStr;
     string test = "NOT NOT TITLE=End";
@@ -106,7 +109,7 @@ TEST(search, invalid_search) {
 }
 
 TEST(search, invalid_search2) {
-    MoviesMock movies;
+    Movies movies;
     movies.movie_update("trending", 5);
     std::stringstream oStr;
     string test = "not and id=1";
@@ -114,7 +117,7 @@ TEST(search, invalid_search2) {
 }
 
 TEST(search, valid_search) {
-    MoviesMock movies;
+    Movies movies;
     movies.movie_update("trending", 5);
     std::stringstream oStr;
     string test = "not genres=Action and not genres=Family";
@@ -122,7 +125,7 @@ TEST(search, valid_search) {
 }
 
 TEST(search, normal8) {
-    MoviesMock movies;
+    Movies movies;
     movies.movie_update("trending", 5);
     std::stringstream oStr;
     string test = "not genres=Action and not genres=Family";
@@ -133,7 +136,7 @@ TEST(search, normal8) {
 }
 
 TEST(search, edge_noMatch) {
-    MoviesMock movies;
+    Movies movies;
     movies.movie_update("trending", 5);
     std::stringstream oStr;
     string test = "not budget=0";
@@ -144,7 +147,7 @@ TEST(search, edge_noMatch) {
 }
 
 TEST(search, edge_noMatch_extend) {
-    MoviesMock movies;
+    Movies movies;
     movies.movie_update("trending", 5);
     std::stringstream oStr;
     string test = "not budget=0 and genres=Horror or genres=Drama and not BUDGET=0";
@@ -155,7 +158,7 @@ TEST(search, edge_noMatch_extend) {
 }
 
 TEST(search, edge_or_matching) {
-    MoviesMock movies;
+    Movies movies;
     movies.movie_update("trending", 5);
     std::stringstream oStr;
     string test = "not budget=0 or GENRES=Drama AND GENRES=Action";
@@ -165,7 +168,7 @@ TEST(search, edge_or_matching) {
     EXPECT_EQ(oStr.str(), "Budget: 0\nGenres: Horror, Action, Drama, War\nHomepage: http://www.shadowinthecloudfilm.com\nSpoken Languages: English\nStatus: Released\nTitle: Shadow in the Cloud\n--------------------------------------------\n");
 }
 
-
+#endif
 
 
 

@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-bool found(std::string keyword, std::string string);
+//bool found(std::string keyword, std::string string);
 
 class Select {
  public:
@@ -23,6 +23,14 @@ class Select_Contains: public Select {
       this->column = data->get_column_by_name(column);
       str = s;
    }
+
+   bool found(std::string keyword, std::string string) const {
+         for (char& c : keyword) c = std::tolower(c);
+         for (char& c : string) c = std::tolower(c);
+         if (string.find(keyword) != std::string::npos) return true;
+         return false;
+   }
+
    bool select(const Movies* data, int row) const {
      if (column == -1){ return false; }
      else { return select(data->cell_data(row, column)); }
@@ -35,12 +43,6 @@ class Select_Contains: public Select {
    }
 };
 
-bool found(std::string keyword, std::string string) {
-      for (char& c : keyword) c = std::tolower(c);
-      for (char& c : string) c = std::tolower(c);
-      if (string.find(keyword) != std::string::npos) return true;
-      return false;
-   }
 
 class Select_And: public Select {
  protected:
